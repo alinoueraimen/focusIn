@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react"
 function PomodoroTimer(){
-    const DUMMY_TIME = 5*60 // 50 menit
-    const [time, setTime] = useState(DUMMY_TIME);
+    const INITIAL_TIME = 5*60 // 50 menit
+    const [time, setTime] = useState(INITIAL_TIME);
     const [isActive, setIsActive] = useState(false);
     useEffect(()=>{
         if(isActive && time > 0){
@@ -25,7 +25,7 @@ function PomodoroTimer(){
         setIsActive(false);
     }
     const handleReset = () => {
-        setTime(DUMMY_TIME);
+        setTime(INITIAL_TIME);
         setIsActive(false);
     }
     return(

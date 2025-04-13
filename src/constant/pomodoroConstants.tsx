@@ -1,0 +1,1 @@
+export const TIMER_SPEED_UP = 0.01

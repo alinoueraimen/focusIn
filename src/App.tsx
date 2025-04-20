@@ -7,14 +7,16 @@ import Profile from './components/home/mainContent/profile/Profile'
 import HeaderSection from './components/home/mainContent/HeaderSection/HeaderSection'
 import PomodoroSection from './components/home/mainContent/PomodoroSection/PomodoroSection'
 import TimeAndSessionSection from './components/home/mainContent/PomodoroSection/TimeAndSessionSection'
-import SessionCategoryPicker from './components/home/mainContent/PomodoroSection/sessionCategoryPicker'
+import SessionCategoryPicker from './components/home/mainContent/PomodoroSection/SessionsGroup'
 import StartButton from './components/home/mainContent/PomodoroSection/startButton'
+import { PomodoroProvider } from './hooks/pomodoro/pomodoroContext'
 
 function App() {
   // const [count, setCount] = useState(0)
 
-  return (
-    <div className="w-screen h-screen flex flex-row px-[40px] py-[30px] justify-between gap-x-[54px]">
+  return (<>
+  <PomodoroProvider>
+  <div className="w-screen h-screen flex flex-row px-[40px] py-[30px] justify-between gap-x-[54px]">
         <nav className='
         h-full 
         w-[100px] bg-container'>
@@ -36,6 +38,10 @@ function App() {
         ">
         </div>
     </div>
+  </PomodoroProvider>
+   
+  </>
+  
   )
 }
 

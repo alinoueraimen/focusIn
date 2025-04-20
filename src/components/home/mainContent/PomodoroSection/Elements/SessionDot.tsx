@@ -1,9 +1,14 @@
 import React from 'react'
 
-function SessionDot() {
+interface SessionDotType {
+  isCompleted : boolean
+}
+
+function SessionDot({isCompleted} : SessionDotType) {
+  console.log('is Completed :',isCompleted)
   return (
-    <div className='w-[2%] aspect-square bg-container
-    rounded-full'>
+    <div className={`w-[5%] aspect-square ${isCompleted ? 'bg-black' : 'bg-container'}
+    rounded-full`}>
 
             </div>
   )

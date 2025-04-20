@@ -6,7 +6,7 @@ function SettingsBtn() {
       <div className='h-full aspect-square grid place-items-center'>
         <button className='h-[50%] aspect-square
         bg-container
-        '></button>
+        '>m</button>
     </div>
     </>
   )

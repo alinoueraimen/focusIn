@@ -4,7 +4,6 @@ import SessionDot from './Elements/SessionDot'
 import usePomodoro from '../../../../hooks/pomodoro/usePomodoro'
 
 function PomodoroSection() {
-    const {timeLeft} = usePomodoro();
 
   return (
     <>

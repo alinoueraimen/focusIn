@@ -33,6 +33,7 @@ function usePomodoro() {
       isNetral : true
     })    
     const [isFinished,setIsFinished] = useState(false);
+    
     const [dotsStatus,setDotsStatus] = useState<boolean[]>([])
     
     const updateDotStatus=(index : number)=>{
@@ -60,15 +61,16 @@ function usePomodoro() {
         settings.longBreak
       ) {
         
+        setIsRunning(true);
         setIsWorking(true);
         setInitialWorkTime(settings.workDuration * 60); // dont change this !!
         setInitialBreakTime(
           settings.shortBreak * 60)
-        setIsRunning(true);
         
       } else {
         alert("Lengkapi semua pengaturan dulu ya 🛠️");
       }
+      setIsPause(false)
     };
 
     const stopPomodoro = () => {
@@ -96,6 +98,7 @@ function usePomodoro() {
       if (settings.sessionCount !== null) {
         setDotsStatus(Array(settings.sessionCount).fill(false));
       }
+      
     };
 
     const playWorkSound : ()=>void = ()=>{
@@ -134,7 +137,7 @@ function usePomodoro() {
           }, 1000 * TIMER_SPEED_UP);
       
           return () => clearInterval(interval);
-        }, [isRunning,timeLeft]);
+        }, [isRunning]);
 
           // Transition logic
           useEffect(() => {
@@ -242,13 +245,13 @@ function usePomodoro() {
           }, [timeLeft, isWorking]);
           
 
-          useEffect(() => {
-            console.group("Current Condition Changed");
-            console.log("isQuarterTime:", currentCondition.isQuarterTime);
-            console.log("isHalfTime:", currentCondition.isHalfTime);
-            console.log("isQuarterBreakTime:", currentCondition.isQuarterBreakTime);
-            console.groupEnd();
-          }, [currentCondition]);
+          // useEffect(() => {
+          //   console.group("Current Condition Changed");
+          //   console.log("isQuarterTime:", currentCondition.isQuarterTime);
+          //   console.log("isHalfTime:", currentCondition.isHalfTime);
+          //   console.log("isQuarterBreakTime:", currentCondition.isQuarterBreakTime);
+          //   console.groupEnd();
+          // }, [currentCondition]);
           useEffect(()=>{
            console.log('current session :',currentSession);
            console.log("session completed :",sessionsCompleted)

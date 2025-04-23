@@ -1,45 +1,68 @@
 import React, { useEffect, useState } from 'react'
-import useUtils from '../../../../../utils/useUtils'
 import { usePomodoroContext } from '../../../../../hooks/pomodoro/pomodoroContext';
+import {Play,Pause,RotateCcw} from 'lucide-react'
 
+import TimerText from './TimerText'
 interface PomodoroTimerPropsType{
     timeLeft: number
 }
 
 function PomodoroTimer({timeLeft} : PomodoroTimerPropsType) {
-    const [text,setText] = useState<string>("start a session");
-    const {initialWorkTime,initialBreakTime,isWorking,currentCondition,isRunning,isFinished} = usePomodoroContext();
-    const {formatTime} = useUtils();
+    const [displayedElement,setDisplayedElement] = useState<React.ReactNode>();
+    const {initialWorkTime,initialBreakTime,isWorking,currentCondition,isRunning,isFinished,isPause,
+    startPomodoro,startOverPomodoro
+    } = usePomodoroContext();
+    
 useEffect(() => {
   if(!isFinished){
     if(isRunning){
-      setText("⌛ Timer Running...")
+      
+      setDisplayedElement(<TimerText text="⌛ Timer Running..."/>)
       switch (true) {
           case currentCondition.isQuarterTime:
-            console.log("💡 Quarter Time Reached");
-            setText("💡 Quarter Time Reached")
+            
+            setDisplayedElement(<TimerText text="💡 Quarter Time Reached"/>)
             break;
       
           case currentCondition.isHalfTime:
-            console.log("🔔 Half Time Reached");
-            setText("🔔 Half Time Reached")
+            
+            setDisplayedElement(<TimerText text="🔔 Half Time Reached"/>)
             break;
       
           case currentCondition.isQuarterBreakTime:
-            console.log("☕ Quarter Break Time");
-            setText("☕ Quarter Break Time")
+            
+            setDisplayedElement(<TimerText text="☕ Quarter Break Time"/>)
             break;
       
           default:
-            console.log("⌛ Timer Running...");
-            setText("⌛ Timer Running...")
+           
+            setDisplayedElement(<TimerText text="⌛ Timer Running..."/>)
             break;
         }
   }else{
-      setText('start timer')
+      if(isPause){
+        setDisplayedElement(<button onClick={startPomodoro} title="pause" className='w-[30%] h-[30%] transtale-x-3 
+          hover:cursor-pointer '> 
+            <Pause className='w-full h-full text-text '/>
+          </button>)
+      }
+      else{
+        setDisplayedElement(
+          <button onClick={startPomodoro} title="start" className='w-[30%] h-[30%] transtale-x-3 
+          hover:cursor-pointer '> 
+            <Play className='w-full h-full text-text '/>
+          </button>
+        )  
+      }
     }
   }else{
-    setText('finished ')
+    setDisplayedElement(
+    <button onClick={startOverPomodoro} title="start over" className='w-[30%] h-[30%] transtale-x-3 
+    hover:cursor-pointer '>
+      <RotateCcw className='w-full h-full text-text ' />
+    </button>
+
+    )
   }
   
   
@@ -74,8 +97,7 @@ useEffect(() => {
         </svg>
         <div className=' flex flex-col justify-center items-center absolute inset-0
         '>
-            <h1 className='text-text font-semibold text-[40px]'>{formatTime(timeLeft)}</h1>
-            <p className='text-text font-normal'>{text}</p>
+         {displayedElement}
         </div>
     </div> 
 

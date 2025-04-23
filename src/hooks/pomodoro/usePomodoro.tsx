@@ -32,7 +32,19 @@ function usePomodoro() {
       isQuarterBreakTime : false,
       isNetral : true
     })    
-   
+    const [isFinished,setIsFinished] = useState(false);
+    const [dotsStatus,setDotsStatus] = useState<boolean[]>([])
+    
+    const updateDotStatus=(index : number)=>{
+      if(sessionsCompleted > index){
+        setDotsStatus(prev=>{
+          const list = [...prev];
+          list[index]= true;
+          return list
+        }) 
+      }
+    }
+
     const updateSetting = (key: keyof PomodoroSettings, value: number | null) => {
       setSettings((prev) => ({
         ...prev,
@@ -69,7 +81,21 @@ function usePomodoro() {
       setCurrentSession(1);
       setTimeLeft(initialWorkTime);
       setIsWorking(true);
-      
+      setSessionsCompleted(0);
+      if (settings.sessionCount !== null) {
+        setDotsStatus(Array(settings.sessionCount).fill(false));
+      }
+    };
+    const startOverPomodoro = () => {
+      setIsRunning(false);
+      setCurrentSession(1);
+      setTimeLeft(initialWorkTime);
+      setIsWorking(true);
+      setIsFinished(false);
+      setSessionsCompleted(0);
+      if (settings.sessionCount !== null) {
+        setDotsStatus(Array(settings.sessionCount).fill(false));
+      }
     };
 
     const playWorkSound : ()=>void = ()=>{
@@ -100,7 +126,7 @@ function usePomodoro() {
 
       // Timer countdown
       useEffect(() => {
-        console.log('timeleft :',timeLeft)
+       
           if (!isRunning || timeLeft <= 0) return;
       
           const interval = setInterval(() => {
@@ -116,19 +142,26 @@ function usePomodoro() {
             if (timeLeft === 0 && isRunning) {
              
               if (isWorking) {
-                setSessionsCompleted((prev) => prev + 1);
+               
                 // End of work session
                 const isLast = currentSession === settings.sessionCount;
+                
                 if (isLast) {
+                  setSessionsCompleted(prev => prev + 1);
+                  setIsFinished(true);
                   setIsRunning(false);
                 } else {
                   // Play break sound  
+                  
+                  setSessionsCompleted(prev=> prev +1)
                     playBreakSound();
                   setIsWorking(false);
                   const breakTime =
                     currentSession % 2 === 0
                       ? settings.longBreak
                       : settings.shortBreak;
+                  console.log("breakTime :",breakTime)    
+                  setInitialBreakTime((breakTime ?? 5) * 60);
                   setTimeLeft((breakTime ?? 5) * 60);
                  
                 }
@@ -219,8 +252,19 @@ function usePomodoro() {
           useEffect(()=>{
            console.log('current session :',currentSession);
            console.log("session completed :",sessionsCompleted)
+           if(sessionsCompleted !== 0){
+            updateDotStatus(sessionsCompleted - 1 )
+           }
+           
           },[currentSession,sessionsCompleted])
-       
+          useEffect(()=>{
+              console.log('dots status :',dotsStatus)
+          },[dotsStatus])
+          useEffect(()=>{
+           if (settings.sessionCount !== null) {
+              setDotsStatus(Array(settings.sessionCount).fill(false));
+            }
+          },[settings.sessionCount])
   return {
     
     settings,
@@ -233,11 +277,14 @@ function usePomodoro() {
     timeLeft,
     isRunning,
     isPause,
+    isFinished,
+    dotsStatus,
     updateSetting,
     startPomodoro,
     stopPomodoro,
     resetPomodoro,
-    
+    startOverPomodoro    ,
+    updateDotStatus
   }
 }
 

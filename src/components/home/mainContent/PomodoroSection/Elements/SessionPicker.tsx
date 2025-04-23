@@ -27,7 +27,7 @@ function SessionPicker({ label, sessionCount, shortBreak, longBreak, workDuratio
 
     return (
         <button
-            className="w-full sm:w-1/3 h-20 px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-xl shadow-lg transform transition-transform duration-200 ease-in-out hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-400"
+            className="w-full sm:w-1/3 h-20 px-8 py-4 bg-secondary rounded-md text-text font-semibold "
             onClick={handlePick}
         >
             {label}

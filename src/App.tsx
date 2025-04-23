@@ -16,19 +16,19 @@ function App() {
 
   return (<>
   <PomodoroProvider>
-  <div className="w-screen h-screen flex flex-row px-[40px] py-[30px] justify-between gap-x-[54px]">
-        <nav className='
+  <div className="w-screen h-screen flex flex-row px-[40px] py-[30px] justify-between gap-x-[54px] bg-background">
+        {/* <nav className='
         h-full 
         w-[100px] bg-container'>
 
-        </nav>
+        </nav> */}
       <MainContentLayout 
       >
         <Profile/>
-        <HeaderSection/>
+        
         <TimeAndSessionSection/>
         <SessionCategoryPicker/>
-        <StartButton/>
+        {/* <StartButton/> */}
       </MainContentLayout>
         <div className="
         w-[30%]

@@ -6,7 +6,7 @@ function Profile() {
   return (
     
     <>
-        <div className={`w-full h-[10%] flex flex-row justify-between items-center`}>
+        <div className={`w-full h-[10%] flex flex-row justify-between items-center border-b-[0.5px]`}>
 
             <Avatar/>
             <SettingsBtn/>

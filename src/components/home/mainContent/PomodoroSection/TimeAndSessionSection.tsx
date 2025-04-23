@@ -4,15 +4,15 @@ import SessionDot from './Elements/SessionDot'
 import { usePomodoroContext } from '../../../../hooks/pomodoro/pomodoroContext'
 
 function TimeAndSessionSection() {
- const {timeLeft,settings,sessionsCompleted} = usePomodoroContext();
+ const {dotsStatus,settings,timeLeft} = usePomodoroContext();
 
   return (
-    <div className='h-[40%] 
+    <div className='h-fit
     w-full flex flex-col gap-y-3 items-center '>
     <PomodoroTimer timeLeft={timeLeft}/>
     <div className='w-full h-fit flex justify-center gap-x-3'>
        {Array.from({length:settings.sessionCount ?? 0}).map((_,index)=>(
-        <SessionDot isCompleted={sessionsCompleted > index} key={index}/>
+        <SessionDot isCompleted={dotsStatus[index]} key={index}/>
        ))}
     </div>
     </div>

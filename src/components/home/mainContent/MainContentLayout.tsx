@@ -9,7 +9,7 @@ function MainContentLayout({children,highlight} : MainContentLayoutProps) {
   return (
     <>
        <div className={`
-        w-[70%]
+        w-[60%]
         h-full     
         flex
         flex-col

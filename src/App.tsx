@@ -10,11 +10,15 @@ import TimeAndSessionSection from './components/home/mainContent/PomodoroSection
 import SessionCategoryPicker from './components/home/mainContent/PomodoroSection/SessionsGroup'
 import StartButton from './components/home/mainContent/PomodoroSection/startButton'
 import { PomodoroProvider } from './hooks/pomodoro/pomodoroContext'
-
+import { TaskManagementProvider } from './hooks/taskManagement/taskManagementContext'
+import TaskContentLayout from './components/home/taskFeature/taskContentLayout'
+import TaskManagementContent from './components/home/taskFeature/TaskManagementContent'
 function App() {
+  
   // const [count, setCount] = useState(0)
 
   return (<>
+  <TaskManagementProvider>
   <PomodoroProvider>
   <div className="w-screen h-screen flex flex-row px-[40px] py-[30px] justify-between gap-x-[54px] bg-background">
         {/* <nav className='
@@ -30,15 +34,13 @@ function App() {
         <SessionCategoryPicker/>
         {/* <StartButton/> */}
       </MainContentLayout>
-        <div className="
-        w-[30%]
-        h-full 
-        bg-container
-        flex
-        ">
-        </div>
+       <TaskContentLayout>
+          <TaskManagementContent/>
+       </TaskContentLayout>
     </div>
   </PomodoroProvider>
+  </TaskManagementProvider>
+  
    
   </>
   

@@ -9,11 +9,13 @@ function MainContentLayout({children,highlight} : MainContentLayoutProps) {
   return (
     <>
        <div className={`
-        w-[60%]
+        w-[70%]
         h-full     
         flex
         flex-col
         justify-between
+        py-[20px]
+        px-[40px]
         ${
             highlight && 'bg-container'
         }

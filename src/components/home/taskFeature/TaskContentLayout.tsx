@@ -9,9 +9,11 @@ function TaskContentLayout({children} : TaskContentLayoutProp) {
     <div className="
         w-[30%]
         h-full 
-        bg-container
+        bg-background
         flex
         flex-col
+        border-l-text
+        border-l-2
         ">
           {children}
         </div>

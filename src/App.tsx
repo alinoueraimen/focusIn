@@ -13,6 +13,8 @@ import { PomodoroProvider } from './hooks/pomodoro/pomodoroContext'
 import { TaskManagementProvider } from './hooks/taskManagement/taskManagementContext'
 import TaskContentLayout from './components/home/taskFeature/taskContentLayout'
 import TaskManagementContent from './components/home/taskFeature/TaskManagementContent'
+import SessionalTaskSection from './components/home/taskFeature/SessionalTaskSection'
+import TasksList from './components/home/taskFeature/TasksList'
 function App() {
   
   // const [count, setCount] = useState(0)
@@ -20,7 +22,7 @@ function App() {
   return (<>
   <TaskManagementProvider>
   <PomodoroProvider>
-  <div className="w-screen h-screen flex flex-row px-[40px] py-[30px] justify-between gap-x-[54px] bg-background">
+  <div className="w-screen h-screen flex flex-row justify-between gap-x-[54px] bg-background">
         {/* <nav className='
         h-full 
         w-[100px] bg-container'>
@@ -35,7 +37,8 @@ function App() {
         {/* <StartButton/> */}
       </MainContentLayout>
        <TaskContentLayout>
-          <TaskManagementContent/>
+          <SessionalTaskSection/>
+          <TasksList/>          
        </TaskContentLayout>
     </div>
   </PomodoroProvider>

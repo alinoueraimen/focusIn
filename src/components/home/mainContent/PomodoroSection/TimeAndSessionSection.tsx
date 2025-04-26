@@ -8,7 +8,7 @@ function TimeAndSessionSection() {
 
   return (
     <div className='h-fit
-    w-full flex flex-col gap-y-3 items-center '>
+    w-full flex flex-col gap-y-3 items-center px-[20px] py-[30px]'>
     <PomodoroTimer timeLeft={timeLeft}/>
     <div className='w-full h-fit flex justify-center gap-x-3'>
        {Array.from({length:settings.sessionCount ?? 0}).map((_,index)=>(

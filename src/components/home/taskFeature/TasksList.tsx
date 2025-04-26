@@ -1,6 +1,9 @@
 import React from 'react'
 import {Plus} from 'lucide-react'
+import { useTaskManagementContext } from '../../../hooks/taskManagement/taskManagementContext';
+import TaskUnit from './element/taskUnit';
 function TasksList() {
+  const {openModal,tasks} = useTaskManagementContext();
   return (
     <>
     <div className="h-[70%] w-full px-[20px] py-[30px]">
@@ -9,33 +12,19 @@ function TasksList() {
             <h1 className='font-semibold text-lg text-text'>Tasks</h1>
             <p className="text-sm text-text ">All Session</p>
             </div>
-            <button title="plus" className="border h-fit p-1 rounded-md" >
+            <button title="plus" className="border h-fit p-1 rounded-md" onClick={openModal}>
                  <Plus/>
              </button> 
           </div>
-          
           <div>
-            <div className='w-full h-15 border-b-text border-b-[0.5px]
-            flex justify-between items-center'>
-              <p className="text-text">tasks</p>
-              <input type="checkbox" title="checkbox"/>
-            </div>
-            <div className='w-full h-15 border-b-text border-b-[0.5px]
-            flex justify-between items-center'>
-              <p className="text-text">tasks</p>
-              <input type="checkbox" title="checkbox"/>
-            </div>
-            <div className='w-full h-15 border-b-text border-b-[0.5px]
-            flex justify-between items-center'>
-              <p className="text-text">tasks</p>
-              <input type="checkbox" title="checkbox"/>
-            </div>
-            <div className='w-full h-15 border-b-text border-b-[0.5px]
-            flex justify-between items-center'>
-              <p className="text-text">tasks</p>
-              <input type="checkbox" title="checkbox"/>
-            </div>
-            
+            {
+              tasks.map((item)=>(
+                <TaskUnit>
+                  {item.content}
+                </TaskUnit>
+              ))
+            }
+           
           </div>
           </div>
     </>

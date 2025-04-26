@@ -8,16 +8,40 @@ type TasksType = {
 
 function useTaskManagement(){
     const [tasks,setTasks] = useState<TasksType[]>([])
+    const [isModalDisplayed,setIsModaldisplayed] = useState<boolean>(false)
+    const [taskInputValue,setTaskInputValue] = useState<string>('');
     const indexId = useRef(0);
-    const addTasks =(text : string)=>{
+    const addTask =(e : React.FormEvent<HTMLFormElement>)=>{
+      if(!taskInputValue.trim()){
+        return 
+      }
+        e.preventDefault();
         console.log('add tasks function');
         indexId.current += 1
         const newTasks : TasksType = {
             id : indexId.current,
-            content : text,
+            content : taskInputValue,
             isSelected : false
         }
         setTasks(prev=>[...prev,newTasks])
+        closeModal();
+        setTaskInputValue('')  
+
+    }
+
+    const handleModalInputChange=(e : React.ChangeEvent<HTMLInputElement>)=>{
+      setTaskInputValue(e.target.value);
+    }
+    const submitModal= ()=>{
+      null
+    }
+    const openModal=()=>{
+      console.log("open modal")
+      setIsModaldisplayed(true);
+    }
+    const closeModal=()=>{
+      console.log("close modal")
+      setIsModaldisplayed(false);
     }
     const selectTask = (index: number) => {
         setTasks(prev =>
@@ -46,12 +70,20 @@ function useTaskManagement(){
     useEffect(()=>{
         console.log("tasks list :",tasks)
     },[tasks])
+    useEffect(()=>{
+      console.log('input value :',taskInputValue);
+    },[taskInputValue])
     return {
         tasks,
-        addTasks,
+        isModalDisplayed,
+        addTask,
         selectTask,
         deleteTask,
-        editTask
+        editTask,
+        submitModal,
+        openModal,
+        closeModal,
+        handleModalInputChange
     }
     
 }

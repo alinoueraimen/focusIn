@@ -9,19 +9,31 @@ import PomodoroSection from './components/home/mainContent/PomodoroSection/Pomod
 import TimeAndSessionSection from './components/home/mainContent/PomodoroSection/TimeAndSessionSection'
 import SessionCategoryPicker from './components/home/mainContent/PomodoroSection/SessionsGroup'
 import StartButton from './components/home/mainContent/PomodoroSection/startButton'
-import { PomodoroProvider } from './hooks/pomodoro/pomodoroContext'
+import { PomodoroProvider, usePomodoroContext } from './hooks/pomodoro/pomodoroContext'
 import { TaskManagementProvider } from './hooks/taskManagement/taskManagementContext'
 import TaskContentLayout from './components/home/taskFeature/taskContentLayout'
 import TaskManagementContent from './components/home/taskFeature/TaskManagementContent'
 import SessionalTaskSection from './components/home/taskFeature/SessionalTaskSection'
 import TasksList from './components/home/taskFeature/TasksList'
+import AddTasksModal from './components/home/taskFeature/AddTasksModal'
 function App() {
   
   // const [count, setCount] = useState(0)
+  const {isFocused} =usePomodoroContext();
+  if(isFocused){
+    return(
+      <>
+      <div className="w-screen h-screen flex flex-row justify-center  pt-[5%]  bg-background ">
+        <TimeAndSessionSection/>
+      </div>
+      </>
+    )
+  }
 
   return (<>
-  <TaskManagementProvider>
-  <PomodoroProvider>
+  
+  <AddTasksModal/>
+  {isFocused}
   <div className="w-screen h-screen flex flex-row justify-between gap-x-[54px] bg-background">
         {/* <nav className='
         h-full 
@@ -40,11 +52,7 @@ function App() {
           <SessionalTaskSection/>
           <TasksList/>          
        </TaskContentLayout>
-    </div>
-  </PomodoroProvider>
-  </TaskManagementProvider>
-  
-   
+    </div> 
   </>
   
   )

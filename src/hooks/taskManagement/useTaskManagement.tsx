@@ -4,14 +4,16 @@ type TasksType = {
     id : number,
     content : string,
     isSelected : boolean,
+    sessionId? : number
 }
 
 function useTaskManagement(){
     const [tasks,setTasks] = useState<TasksType[]>([])
     const [isModalDisplayed,setIsModaldisplayed] = useState<boolean>(false)
     const [taskInputValue,setTaskInputValue] = useState<string>('');
+    const [taskSessionIdValue,setTaskSessionIdValue]= useState <number | undefined>()
     const indexId = useRef(0);
-    const addTask =(e : React.FormEvent<HTMLFormElement>)=>{
+    const addTask =(e : React.FormEvent<HTMLFormElement>,sessionId? : number)=>{
       if(!taskInputValue.trim()){
         return 
       }
@@ -21,7 +23,8 @@ function useTaskManagement(){
         const newTasks : TasksType = {
             id : indexId.current,
             content : taskInputValue,
-            isSelected : false
+            isSelected : false,
+            sessionId
         }
         setTasks(prev=>[...prev,newTasks])
         closeModal();
@@ -83,7 +86,9 @@ function useTaskManagement(){
         submitModal,
         openModal,
         closeModal,
-        handleModalInputChange
+        handleModalInputChange,
+        setTaskSessionIdValue,
+        
     }
     
 }

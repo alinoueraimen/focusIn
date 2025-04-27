@@ -10,21 +10,43 @@ import TimeAndSessionSection from './components/home/mainContent/PomodoroSection
 import SessionCategoryPicker from './components/home/mainContent/PomodoroSection/SessionsGroup'
 import StartButton from './components/home/mainContent/PomodoroSection/startButton'
 import { PomodoroProvider, usePomodoroContext } from './hooks/pomodoro/pomodoroContext'
-import { TaskManagementProvider } from './hooks/taskManagement/taskManagementContext'
+import { TaskManagementProvider, useTaskManagementContext } from './hooks/taskManagement/taskManagementContext'
 import TaskContentLayout from './components/home/taskFeature/taskContentLayout'
 import TaskManagementContent from './components/home/taskFeature/TaskManagementContent'
 import SessionalTaskSection from './components/home/taskFeature/SessionalTaskSection'
-import TasksList from './components/home/taskFeature/TasksList'
+import TasksList from './components/home/taskFeature/TasksList.tsx'
 import AddTasksModal from './components/home/taskFeature/AddTasksModal'
+import FreeSessionTask from './components/home/taskFeature/FreeSessionTask'
+import FreeSessionTasksList from './components/home/taskFeature/v2/FreeSessionTasksList.tsx'
+import SessionBasedTasks from './components/home/taskFeature/v2/TasksList.tsx'
+import { Plus } from 'lucide-react'
+import NewTaskButton from './components/home/taskFeature/v2/NewTasksToggle.tsx'
+import SessionalBasedTasks from './components/home/taskFeature/v2/SessionalBasedTasks.tsx'
+import TaskUnit from './components/home/taskFeature/element/taskUnit.tsx'
 function App() {
   
   // const [count, setCount] = useState(0)
   const {isFocused} =usePomodoroContext();
+  const {tasks} = useTaskManagementContext();
   if(isFocused){
     return(
       <>
-      <div className="w-screen h-screen flex flex-row justify-center  pt-[5%]  bg-background ">
+      <div className="w-screen h-screen flex flex-col justify-center items-center pt-[1%]  bg-background ">
         <TimeAndSessionSection/>
+        <div className="w-[50%] h-full bg-[#D3C5A0] rounded-tl-2xl rounded-tr-2xl shadow-xl hover:shadow-2xl border-text px-[20px] py-[30px]  overflow-y-scroll">
+          <div className="w-full h-[50px] flex justify-center items-center  text-xl font-semibold text-text capitalize gap-y-3 ">
+            <h1>Session 1</h1>
+          </div>
+          {tasks.map((item)=>(
+            <div className='bg-background rounded-xl w-full h-[50px]'>
+              {item.content}
+            </div>
+          ))}
+          
+          
+          
+          
+       </div>
       </div>
       </>
     )
@@ -49,8 +71,15 @@ function App() {
         {/* <StartButton/> */}
       </MainContentLayout>
        <TaskContentLayout>
-          <SessionalTaskSection/>
-          <TasksList/>          
+          <div className='px-[20px] py-[30px]'>
+             <h1 className="font-bold text-xl text-text ">
+               Tasks
+             </h1>
+               <FreeSessionTasksList/>
+                <SessionalBasedTasks/>
+          </div>
+          
+          
        </TaskContentLayout>
     </div> 
   </>

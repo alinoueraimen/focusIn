@@ -1,6 +1,7 @@
 export type PomodoroSettings = {
-    sessionCount: number | null;
-    workDuration: number | null;
-    shortBreak: number | null;
-    longBreak: number | null;
+    label? : string ;
+    sessionCount: number ;
+    workDuration: number ;
+    shortBreak: number ;
+    longBreak: number ;
   };

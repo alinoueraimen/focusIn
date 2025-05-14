@@ -34,9 +34,20 @@ function usePomodoro() {
       isNetral : true
     })    
     const [isFinished,setIsFinished] = useState(false);
-    
     const [dotsStatus,setDotsStatus] = useState<boolean[]>([])
+    const [isAddCustomSessionModulDisplay,setIsAddCustomSessionModulDisplay] = useState<boolean>(false);
+    const [customSessions,setCustomSessions] = useState<PomodoroSettings[]>([])
     
+    const openCustomSessionModal = () =>{
+      setIsAddCustomSessionModulDisplay(true)
+    }
+    const closeCustomSessionModal = () =>{
+      setIsAddCustomSessionModulDisplay(false)
+    }
+    const submitCustomSession = (value : PomodoroSettings) => {
+      setCustomSessions(prev=>[...prev,value])
+    }
+
     const updateDotStatus=(index : number)=>{
       if(sessionsCompleted > index){
         setDotsStatus(prev=>{
@@ -46,7 +57,6 @@ function usePomodoro() {
         }) 
       }
     }
-
     const updateSetting = (key: keyof PomodoroSettings, value: number | null) => {
       setSettings((prev) => ({
         ...prev,
@@ -114,7 +124,18 @@ function usePomodoro() {
         audio.play();
       }
 
-      
+    const handleBackToMainPage=()=>{
+      setIsRunning(false);
+      setCurrentSession(1);
+      setTimeLeft(initialWorkTime);
+      setIsWorking(true);
+      setIsFinished(false);
+      setSessionsCompleted(0);
+      if (settings.sessionCount !== null) {
+        setDotsStatus(Array(settings.sessionCount).fill(false));
+      }
+      setIsFocused(false);
+    }
 
       useEffect(()=>{
         console.log('settings state changed')
@@ -285,12 +306,18 @@ function usePomodoro() {
     isFinished,
     isFocused,
     dotsStatus,
+    isAddCustomSessionModulDisplay,
+    customSessions,
+  openCustomSessionModal,
     updateSetting,
     startPomodoro,
     stopPomodoro,
     resetPomodoro,
-    startOverPomodoro    ,
-    updateDotStatus
+    startOverPomodoro,
+    updateDotStatus,
+    handleBackToMainPage,
+    submitCustomSession,
+    closeCustomSessionModal,
   }
 }
 

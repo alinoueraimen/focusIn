@@ -4,7 +4,10 @@ todo :
 - buat  time set (done)
 - ubah sesi (done)
 - suara notif (done)
-- auth
+- auth 
+- focus mode 70 %
+- session custom done
+- timer variant
 
 
 urgent :

@@ -1,11 +1,12 @@
 import React from 'react'
 import { usePomodoroContext } from '../../../../../hooks/pomodoro/pomodoroContext'
 import { PomodoroSettings } from '../../../../../types'
-import {Zap} from 'lucide-react'
-import { Bed,Layers,Coffee,Timer } from 'lucide-react'
+
+import { Layers,Timer } from 'lucide-react'
 
 
 interface SessionPickerType {
+    icon:React.ReactNode,
     label: string,
     sessionCount: number,
     workDuration: number,
@@ -13,7 +14,7 @@ interface SessionPickerType {
     longBreak: number
 }
 
-function SessionPicker({ label, sessionCount, shortBreak, longBreak, workDuration }: SessionPickerType) {
+function SessionPicker({ icon,label, sessionCount, shortBreak, longBreak, workDuration }: SessionPickerType) {
     const { updateSetting } = usePomodoroContext()
 
     const handlePick = () => {
@@ -24,7 +25,7 @@ function SessionPicker({ label, sessionCount, shortBreak, longBreak, workDuratio
             longBreak,
         }
         Object.entries(settingsPreference).forEach(([key, value]) => {
-            updateSetting(key as keyof PomodoroSettings, value);
+            updateSetting(key as keyof PomodoroSettings, value as number);
         });
     }
 
@@ -37,8 +38,8 @@ function SessionPicker({ label, sessionCount, shortBreak, longBreak, workDuratio
             title="sprint"
         >
             <div className="flex flex-col items-center justify-center ">
-            <Zap/>
-            <h3 className="text-lg">2 x 50</h3>
+            {icon}
+            <h3 className="text-lg">{sessionCount} x {workDuration}</h3>
             </div>
             <div className="flex flex-col w-full ">
                 <div className="w-[100%] flex justify-between items-center">
@@ -46,7 +47,7 @@ function SessionPicker({ label, sessionCount, shortBreak, longBreak, workDuratio
                   <div className="flex items-center
                   gap-x-1">
                   <Timer size ={15}/> 
-                  <p className="text-xs font-[350]">50 mnt</p>
+                  <p className="text-xs font-[350]">{workDuration} mnt</p>
                   </div>
                   </div>
                   <p className="mx-auto text-lg font-bold">x</p>
@@ -57,7 +58,7 @@ function SessionPicker({ label, sessionCount, shortBreak, longBreak, workDuratio
                   "
                   >
                   <Layers size ={15}/> 
-                  <p className="text-xs font-[350]">2 session</p>
+                  <p className="text-xs font-[350]">{sessionCount} session</p>
                   </div>
                   </div>
                   </div>   

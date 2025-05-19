@@ -3,14 +3,12 @@ import { usePomodoroContext } from '../../../../../hooks/pomodoro/pomodoroContex
 import {Play,Pause,RotateCcw} from 'lucide-react'
 
 import TimerText from './TimerText'
-interface PomodoroTimerPropsType{
-    timeLeft: number
-}
 
-function PomodoroTimer({timeLeft} : PomodoroTimerPropsType) {
+
+function PomodoroTimer() {
     const [displayedElement,setDisplayedElement] = useState<React.ReactNode>();
     const {initialWorkTime,initialBreakTime,isWorking,currentCondition,isRunning,isFinished,isPause,
-    startPomodoro,startOverPomodoro
+    startPomodoro,startOverPomodoro,timeLeft
     } = usePomodoroContext();
     
 useEffect(() => {

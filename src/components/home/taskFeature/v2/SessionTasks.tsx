@@ -1,14 +1,13 @@
 import React,{useEffect} from 'react'
 import NewTaskButton from './NewTasksToggle'
 import { useTaskManagementContext } from '../../../../hooks/taskManagement/taskManagementContext'
+import TaskUnit from '../element/taskUnit'
 type sessionTasksType = {
     sessionId : number
 }
 function SessionTasks({sessionId} : sessionTasksType) {
-  const {setTaskSessionIdValue} =useTaskManagementContext();
-  useEffect(()=>{
-    setTaskSessionIdValue(sessionId);
-  },[])
+  const {tasks} =useTaskManagementContext();
+  
   return (
     <>
         <div className='flex flex-col gap-y-1 text-sm  text-text '>
@@ -17,7 +16,12 @@ function SessionTasks({sessionId} : sessionTasksType) {
            Session {sessionId}
            </p>
          </div>
-         <NewTaskButton />
+         {tasks.filter((item)=>(item.sessionId === sessionId)).map((item)=>(
+                             <TaskUnit key={item.id}>
+                                 {item.content}
+                             </TaskUnit>
+                           ))}
+         <NewTaskButton sessionId = {sessionId}/>
     </div>
     </>
     

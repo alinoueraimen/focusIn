@@ -31,7 +31,7 @@ function SessionPicker({ icon,label, sessionCount, shortBreak, longBreak, workDu
 
     return (
         <button
-            className="w-full sm:w-1/3 h-full px-8 py-4 bg-secondary rounded-md text-text font-semibold flex flex-col items-center
+            className="w-full sm:w-1/3 h-fit px-8 py-4 bg-secondary rounded-md text-text font-semibold flex flex-col items-center
             justify-between
             "
             onClick={handlePick}

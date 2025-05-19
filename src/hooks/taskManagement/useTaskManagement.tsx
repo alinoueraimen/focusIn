@@ -12,8 +12,15 @@ function useTaskManagement(){
     const [isModalDisplayed,setIsModaldisplayed] = useState<boolean>(false)
     const [taskInputValue,setTaskInputValue] = useState<string>('');
     const [taskSessionIdValue,setTaskSessionIdValue]= useState <number | undefined>()
+    const [isSectionDisplayed,setIsSectionDisplayed] = useState<boolean>(true)
     const indexId = useRef(0);
-    const addTask =(e : React.FormEvent<HTMLFormElement>,sessionId? : number)=>{
+    const hideSection = () =>{
+        setIsSectionDisplayed(false);
+    }
+    const showSection = () =>{
+        setIsSectionDisplayed(true);
+    }
+    const addTask =(e : React.FormEvent<HTMLFormElement>)=>{
       if(!taskInputValue.trim()){
         return 
       }
@@ -24,7 +31,7 @@ function useTaskManagement(){
             id : indexId.current,
             content : taskInputValue,
             isSelected : false,
-            sessionId
+            sessionId : taskSessionIdValue
         }
         setTasks(prev=>[...prev,newTasks])
         closeModal();
@@ -79,6 +86,7 @@ function useTaskManagement(){
     return {
         tasks,
         isModalDisplayed,
+        isSectionDisplayed,
         addTask,
         selectTask,
         deleteTask,
@@ -88,7 +96,8 @@ function useTaskManagement(){
         closeModal,
         handleModalInputChange,
         setTaskSessionIdValue,
-        
+        hideSection,
+        showSection
     }
     
 }

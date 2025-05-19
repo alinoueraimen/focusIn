@@ -1,0 +1,5 @@
+#root {
+  min-width: 800px; /* minimal lebar */
+  min-height: 600px; /* minimal tinggi */
+  overflow: auto; /* supaya scroll muncul kalau container kecil */
+}

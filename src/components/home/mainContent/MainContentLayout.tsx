@@ -1,4 +1,6 @@
 import {ReactNode} from 'react'
+import { useTaskManagementContext } from '../../../hooks/taskManagement/taskManagementContext';
+import Profile from './profile/Profile';
 
 interface MainContentLayoutProps {
     children: ReactNode;
@@ -6,20 +8,24 @@ interface MainContentLayoutProps {
 }
 
 function MainContentLayout({children,highlight} : MainContentLayoutProps) {
+  const {isSectionDisplayed} = useTaskManagementContext()
   return (
     <>
        <div className={`
-        w-[70%]
+        w-full
+        
         h-full     
         flex
         flex-col
         justify-between
-        py-[20px]
-        px-[40px]
+        py-5
+        px-5
+        
         ${
             highlight && 'bg-container'
         }
         `}>
+            <Profile/>
             {children}
         </div>
     </>

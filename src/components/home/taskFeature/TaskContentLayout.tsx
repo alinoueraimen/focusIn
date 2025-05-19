@@ -14,6 +14,8 @@ function TaskContentLayout({children} : TaskContentLayoutProp) {
         flex-col
         border-l-text
         border-l-2
+        absolute
+        right-0
         ">
           {children}
         </div>

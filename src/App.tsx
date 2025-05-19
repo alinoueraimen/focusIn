@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import './App.css'
-import PomodoroTimer from './components/pomodoroTimer/PomodoroTimer'
+import PomodoroTimer from './components/home/mainContent/PomodoroSection/Elements/Timer.tsx'
 import { TEMPLATE_COLOR } from './constant/colorConstant'
 import MainContentLayout from './components/home/mainContent/MainContentLayout'
 import Profile from './components/home/mainContent/profile/Profile'
@@ -24,105 +24,122 @@ import NewTaskButton from './components/home/taskFeature/v2/NewTasksToggle.tsx'
 import SessionalBasedTasks from './components/home/taskFeature/v2/SessionalBasedTasks.tsx'
 import TaskUnit from './components/home/taskFeature/element/taskUnit.tsx'
 import AddCustomSessionModal from './components/home/mainContent/PomodoroSection/addCustomSession.tsx'
+import HourglassTimer from './test/HourGlass.tsx'
+import DeepFocusSection from './components/home/deepfocus/DeepFocusSection.tsx'
+
+
 function App() {
   
-  const [checkedTasks, setCheckedTasks] = useState<number[]>([]);
-  const toggleCheck = (index: number) => {
-    setCheckedTasks((prev) =>
-      prev.includes(index)
-        ? prev.filter((i) => i !== index)
-        : [...prev, index]
-    );
+ 
+  const [currentTimerVariant, setCurrentTimerVariant] = useState<number>(0);
+  const {timeLeft} = usePomodoroContext();
+  
+  const timersVariants = [
+    <TimeAndSessionSection timerVariant={<PomodoroTimer />} key="time-session" />,
+    <TimeAndSessionSection timerVariant={<HourglassTimer/>} key="time-session" />,
+  ];
+ 
+  const {isFocused} =usePomodoroContext();
+  const {isSectionDisplayed,showSection,hideSection} = useTaskManagementContext();
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    // Fungsi handler saat resize
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    // Pasang event listener resize
+    window.addEventListener('resize', handleResize);
+
+    // Bersihkan event listener saat unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Empty dependency supaya efek jalan sekali saat mount
+   // Fungsi pindah ke komponen berikutnya
+   const handleNext = () => {
+    setCurrentTimerVariant((prev) => (prev + 1) % timersVariants.length);
   };
-  const {isFocused,handleBackToMainPage} =usePomodoroContext();
-  const {tasks} = useTaskManagementContext();
+
+  // Fungsi pindah ke komponen sebelumnya
+  const handlePrev = () => {
+    setCurrentTimerVariant((prev) => (prev - 1 + timersVariants.length) % timersVariants.length);
+  };
   if(isFocused){
     return(
       <>
-     <div className="w-screen h-screen flex flex-col justify-center items-center pt-[1%] bg-background relative">
- 
-  <button
-    onClick={handleBackToMainPage} // atau ganti dengan fungsi lain jika kamu pakai router
-    className="absolute top-4 left-4 flex items-center gap-2 text-text hover:text-primary transition"
-  >
-    <ArrowLeft className="w-5 h-5" />
-    <span>back</span>
-  </button>
-
-  <TimeAndSessionSection />
-
-
-  <div className="w-[50%] h-full bg-[#D3C5A0] rounded-tl-2xl rounded-tr-2xl shadow-xl hover:shadow-2xl border-text px-[20px] py-[30px] overflow-y-scroll">
-    <div className="w-full h-[50px] flex justify-center items-center text-xl font-semibold text-text capitalize gap-y-3">
-      <h1>Session 1</h1>
-    </div>
-
-    {tasks.map((item, index) => {
-  const isChecked = checkedTasks.includes(index);
-
-  return (
-    <div
-      key={index}
-      className="bg-background rounded-xl w-full h-[50px] my-2 flex items-center px-4"
-    >
-      <button
-        onClick={() => toggleCheck(index)}
-        className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center transition-colors duration-200
-          ${isChecked ? 'bg-primary border-primary' : 'border-gray-400'}`}
-      >
-        {isChecked && <Check size={14} color="white" strokeWidth={3} />}
-      </button>
-
-      <span
-        className={`text-base ${
-          isChecked ? 'line-through text-muted' : ''
-        }`}
-      >
-        {item.content}
-      </span>
-    </div>
-  );
-})}
-
-  </div>
-</div>
+        <DeepFocusSection/>
       </>
     )
   }
-
-  return (<>
   
+  
+ 
+  return (
+  <>
+ 
   <AddTasksModal/>
   <AddCustomSessionModal/>
   {isFocused}
-  <div className="w-screen h-screen flex flex-row justify-between gap-x-[54px] bg-background">
-        {/* <nav className='
-        h-full 
-        w-[100px] bg-container'>
-
-        </nav> */}
+  <div className="w-screen h-screen flex flex-row justify-between gap-x-[54px] bg-background overflow-x-hidden">
+       
       <MainContentLayout 
       >
-        <Profile/>
+      
         
-        <TimeAndSessionSection/>
+        
+        <div className="flex flex-col items-center">
+           <div onClick={showSection} className="absolute w-fit h-fit p-5 bg-red-500 right-5">
+           <button>x</button>
+         </div>
+      <div className="flex justify-center items-center gap-4">
+        <button onClick={handlePrev} className="p-2 bg-gray-300 rounded">
+          &lt; {/* panah kiri */}
+        </button>
+
+          {timersVariants[currentTimerVariant
+          ]}
+        <button onClick={handleNext} className="p-2 bg-gray-300 rounded">
+          &gt; {/* panah kanan */}
+        </button>
+      </div>
+    </div>
         <SessionCategoryPicker/>
         {/* <StartButton/> */}
       </MainContentLayout>
-       <TaskContentLayout>
-          <div className='px-[20px] py-[30px]'>
-             <h1 className="font-bold text-xl text-text ">
-               Tasks
-             </h1>
-               <FreeSessionTasksList/>
-                <SessionalBasedTasks/>
-          </div>
+      {
+          isSectionDisplayed &&
+          <TaskContentLayout>
           
-          
-       </TaskContentLayout>
+            <div className='px-[20px] py-[30px]'>
+              <div className="flex flex-row justify-between items-center">
+
+                <h1 className="font-bold text-xl text-text ">
+                 Tasks
+               </h1>
+                          <div className="">
+                <button onClick={hideSection}>
+                   x
+                </button>
+                </div>
+              </div>
+               
+                 <FreeSessionTasksList/>
+                  <SessionalBasedTasks/>
+            </div>
+         </TaskContentLayout> 
+        
+      }
+
+      
     </div> 
   </>
-  
+ 
   )
 }
 

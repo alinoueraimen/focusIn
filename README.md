@@ -5,9 +5,9 @@ todo :
 - ubah sesi (done)
 - suara notif (done)
 - auth 
-- focus mode 70 %
+- focus mode 70 % (done)
 - session custom done
-- timer variant
+- timer variant(done)
 
 <?xml version="1.0" encoding="utf-8"?>
 <svg width="206" height="406" viewBox="0 0 206 406" fill="none" xmlns="http://www.w3.org/2000/svg">

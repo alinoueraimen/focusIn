@@ -93,9 +93,9 @@ function App() {
       
         
         
-        <div className="flex flex-col items-center">
-           <div onClick={showSection} className="absolute w-fit h-fit p-5 bg-red-500 right-5">
-           <button>x</button>
+        <div className="flex flex-col items-center relative">
+           <div onClick={showSection} className="absolute w-10 h-10  grid place-items-center bg-primary font-bold text-white rounded-lg top-[5%] right-[5%] hover:cursor-pointer">
+           x
          </div>
       <div className="flex justify-center items-center gap-4">
         <button onClick={handlePrev} className="p-2 bg-gray-300 rounded">

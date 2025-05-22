@@ -5,7 +5,7 @@ import SettingsBtn from './elements/Settings/settingsButton'
 function Profile() {
   return (   
     <>
-        <div className={`w-full h-[10%] flex flex-row justify-between items-center border-b-[0.5px]`}>
+        <div className={`w-full h-[10%] flex flex-row justify-between items-center border-b-[0.5px] mt-5`}>
             <Avatar/>
             <SettingsBtn/>
   </div>

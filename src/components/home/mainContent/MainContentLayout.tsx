@@ -18,9 +18,10 @@ function MainContentLayout({children,highlight} : MainContentLayoutProps) {
         flex
         flex-col
         justify-between
-        py-5
+       
         px-5
-        
+        overflow-x-hidden
+        overflow-y-hidden
         ${
             highlight && 'bg-container'
         }

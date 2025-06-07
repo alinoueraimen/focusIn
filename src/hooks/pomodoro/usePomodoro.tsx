@@ -1,6 +1,9 @@
-import {useState,useEffect} from 'react'
-import { TIMER_SPEED_UP } from '../../constant/pomodoroConstants';
+import {useState,useEffect,useRef} from 'react'
+import { TIMER_SPEED_UP } from '../../constant/pomodoroConstants'
 import {PomodoroSettings} from "../../types/index"
+import { usePomodoroSessionContext } from '../sessionType/usePomodoroSession'
+import useUtils from '../../utils/useUtils'
+
 
 type CurrentConditionType = {
   isHalfTime  : boolean,
@@ -11,12 +14,8 @@ type CurrentConditionType = {
 }
 
 function usePomodoro() {
-  const [settings, setSettings] = useState<PomodoroSettings>({
-      sessionCount: null,
-      workDuration: null,
-      shortBreak: null,
-      longBreak: null,
-    });
+    const {playSound} = useUtils();
+    const {selectedSession} =usePomodoroSessionContext();  
     const [currentSession, setCurrentSession] = useState(1);
     const [sessionsCompleted,setSessionsCompleted] = useState(0);
     const [isWorking, setIsWorking] = useState(true);
@@ -25,7 +24,7 @@ function usePomodoro() {
     const [timeLeft, setTimeLeft] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [isPause,setIsPause] = useState(false);
-    const [isFocused,setIsFocused] = useState <boolean> (false);
+    const [isFocused,setIsFocused] = useState <boolean> (true);
     const [currentCondition,setCurrentCondition] = useState<CurrentConditionType>({
       isHalfTime  : false,
       isQuarterTime : false,
@@ -37,7 +36,38 @@ function usePomodoro() {
     const [dotsStatus,setDotsStatus] = useState<boolean[]>([])
     const [isAddCustomSessionModulDisplay,setIsAddCustomSessionModulDisplay] = useState<boolean>(false);
     const [customSessions,setCustomSessions] = useState<PomodoroSettings[]>([])
-    
+    const [isBackToHomeModalDisplayed,setIsBackToHomeModalDisplayed] = useState<boolean>(false)
+    const [isBreak,setIsBreak] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(true);
+    const initializeComplete=()=>{
+      setIsInitialized(false);
+    }
+    const loadIsFocusedFromLocalStorage=(data : boolean)=>{
+      setIsFocused(data)
+      setIsInitialized(false);
+    }
+    const loadTimeLeftFromLocalStorage=(data : number)=>{
+      setTimeLeft(data);
+      setIsInitialized(false);
+    }
+    const loadinitialWorkTimeFromLocalStorage=(data : number)=>{
+      setInitialWorkTime(data);
+      setIsInitialized(false);
+    }
+    const loadinitialBreakTimeFromLocalStorage=(data : number)=>{
+      setInitialBreakTime(data);
+      setIsInitialized(false);
+    }
+    const loadIsRunningFromLocalStorage=(data : boolean)=>{
+      setIsRunning(data);
+      setIsInitialized(false);
+    }
+    const loadIsFinishedFromLocalStorage=(data : boolean)=>{
+      setIsFinished(
+        data
+      )
+      setIsInitialized(false)
+    }
     const openCustomSessionModal = () =>{
       setIsAddCustomSessionModulDisplay(true)
     }
@@ -57,33 +87,28 @@ function usePomodoro() {
         }) 
       }
     }
-    const updateSetting = (key: keyof PomodoroSettings, value: number | null) => {
-      setSettings((prev) => ({
-        ...prev,
-        [key] : value,
-      }));
-    };
+   
 
     const startPomodoro = () => {
-      if (
-        settings.sessionCount &&
-        settings.workDuration &&
-        settings.shortBreak &&
-        settings.longBreak
-      ) {
-        setIsRunning(true);
-        setIsWorking(true);
-        setIsFocused(true);
-        setInitialWorkTime(settings.workDuration * 60); // dont change this !!
-        setInitialBreakTime(
-          settings.shortBreak * 60)
-        
-      } else {
-        alert("Lengkapi semua pengaturan dulu ya 🛠️");
-      }
-      setIsPause(false)
-      
-    };
+  if (selectedSession.sessionCount > 0 ) {
+    setIsPause(false);
+    setIsRunning(true);
+    setIsWorking(true);
+    setIsFocused(true);
+    
+    const workTimeInSeconds = selectedSession.workDuration * 60;
+    const breakTimeInSeconds = selectedSession.shortBreak * 60;
+    
+    setInitialWorkTime(workTimeInSeconds);
+    setInitialBreakTime(breakTimeInSeconds);
+    if(!isFocused){
+      setTimeLeft(workTimeInSeconds); 
+    }
+    
+  } else {
+    alert("Lengkapi semua pengaturan dulu ya 🛠️");
+  }
+};
 
     const stopPomodoro = () => {
       setIsRunning(false);
@@ -96,8 +121,8 @@ function usePomodoro() {
       setTimeLeft(initialWorkTime);
       setIsWorking(true);
       setSessionsCompleted(0);
-      if (settings.sessionCount !== null) {
-        setDotsStatus(Array(settings.sessionCount).fill(false));
+      if (selectedSession.sessionCount !== null) {
+        setDotsStatus(Array(selectedSession.sessionCount).fill(false));
       }
     };
     const startOverPomodoro = () => {
@@ -107,60 +132,106 @@ function usePomodoro() {
       setIsWorking(true);
       setIsFinished(false);
       setSessionsCompleted(0);
-      if (settings.sessionCount !== null) {
-        setDotsStatus(Array(settings.sessionCount).fill(false));
+      if (selectedSession.sessionCount !== null) {
+        setDotsStatus(Array(selectedSession.sessionCount).fill(false));
       }
       
     };
 
-    const playWorkSound : ()=>void = ()=>{
-        console.log('playing the sound')
-        const audio = new Audio('/work-sound.wav');
-        audio.play();
-      }
-      const playBreakSound : ()=>void = ()=>{
-        console.log('playing the sound')
-        const audio = new Audio('/break-sound.wav');
-        audio.play();
-      }
+    
+      
 
     const handleBackToMainPage=()=>{
+      setIsFocused(false);
       setIsRunning(false);
       setCurrentSession(1);
       setTimeLeft(initialWorkTime);
       setIsWorking(true);
       setIsFinished(false);
       setSessionsCompleted(0);
-      if (settings.sessionCount !== null) {
-        setDotsStatus(Array(settings.sessionCount).fill(false));
+      if (selectedSession.sessionCount !== null) {
+        setDotsStatus(Array(selectedSession.sessionCount).fill(false));
       }
-      setIsFocused(false);
     }
+    
+// Save settings to localStorage
 
-      useEffect(()=>{
-        console.log('settings state changed')
-        console.group()
-        console.log('work duration :',settings.workDuration)
-        console.groupEnd()
-        setTimeLeft((settings.workDuration ?? 0) * 60 )
-        setInitialWorkTime((settings.workDuration ?? 0) * 60 )
-        setInitialBreakTime(
-          (settings.shortBreak ?? 0) * 60 
-        )
+    const intervalRef = useRef<number | null>(null);
 
-      },[settings])
+useEffect(() => {
+  if (!isRunning || timeLeft <= 0) return;
 
-      // Timer countdown
-      useEffect(() => {
-       
-          if (!isRunning || timeLeft <= 0) return;
+  intervalRef.current = setInterval(() => {
+    setTimeLeft((prev) => prev - 1);
+  }, 1000 * TIMER_SPEED_UP);
+
+  return () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+}, [isRunning]);
+  useEffect(() => {
+    console.log('heiii aku mau set ke localstorage loh')
+    console.log(isInitialized);
+    if(!isInitialized) {
       
-          const interval = setInterval(() => {
-            setTimeLeft((prev) => prev - 1);
-          }, 1000 * TIMER_SPEED_UP);
       
-          return () => clearInterval(interval);
-        }, [isRunning]);
+      localStorage.setItem('pomodoro-isFocused',isFocused.toString());
+    }
+    
+  }, [isFocused,isInitialized]);
+  useEffect(() => {
+ 
+    console.log(isInitialized);
+    if(!isInitialized) {
+      
+      
+      localStorage.setItem('pomodoro-timeLeft',timeLeft.toString());
+    }
+    
+  }, [timeLeft,isInitialized]);
+  useEffect(() => {
+ 
+    console.log(isInitialized);
+    if(!isInitialized) {
+      
+      
+      localStorage.setItem('pomodoro-isRunning',isRunning.toString());
+    }
+    
+  }, [isRunning,isInitialized]);
+  useEffect(() => {
+ 
+    console.log(isInitialized);
+    if(!isInitialized) {
+      
+      
+      localStorage.setItem('pomodoro-initialWorkTime',initialWorkTime.toString());
+    }
+    
+  }, [initialWorkTime,isInitialized]);
+  useEffect(() => {
+ 
+    console.log(isInitialized);
+    if(!isInitialized) {
+      
+      
+      localStorage.setItem('pomodoro-isFinished',isFinished.toString());
+    }
+    
+  }, [isFinished,isInitialized]);
+  useEffect(() => {
+ 
+    console.log(isInitialized);
+    if(!isInitialized) {
+      
+      
+      localStorage.setItem('pomodoro-initialBreakTime',initialBreakTime.toString());
+    }
+    
+  }, [initialBreakTime,isInitialized]);
 
           // Transition logic
           useEffect(() => {
@@ -170,7 +241,7 @@ function usePomodoro() {
               if (isWorking) {
                
                 // End of work session
-                const isLast = currentSession === settings.sessionCount;
+                const isLast = currentSession === selectedSession.sessionCount;
                 
                 if (isLast) {
                   setSessionsCompleted(prev => prev + 1);
@@ -178,14 +249,14 @@ function usePomodoro() {
                   setIsRunning(false);
                 } else {
                   // Play break sound  
-                  
+                  setIsBreak(true)
                   setSessionsCompleted(prev=> prev +1)
-                    playBreakSound();
+                  playSound('/break-sound.wav')
                   setIsWorking(false);
                   const breakTime =
                     currentSession % 2 === 0
-                      ? settings.longBreak
-                      : settings.shortBreak;
+                      ? selectedSession.longBreak
+                      : selectedSession.shortBreak;
                   console.log("breakTime :",breakTime)    
                   setInitialBreakTime((breakTime ?? 5) * 60);
                   setTimeLeft((breakTime ?? 5) * 60);
@@ -193,13 +264,14 @@ function usePomodoro() {
                 }
               } else {
                 // play work sound
-                playWorkSound();
+                playSound('/work-sound.mp3')
                 // End of break
+                setIsBreak(false)
                 setIsRunning(false);
                 setIsWorking(true);
                 setCurrentSession((prev) => prev + 1);
                 
-                setTimeLeft((settings.workDuration ?? 25) * 60);
+                setTimeLeft((selectedSession.workDuration ?? 25) * 60);
               }
             }
           }, [timeLeft, isRunning]);
@@ -287,13 +359,13 @@ function usePomodoro() {
               console.log('dots status :',dotsStatus)
           },[dotsStatus])
           useEffect(()=>{
-           if (settings.sessionCount !== null) {
-              setDotsStatus(Array(settings.sessionCount).fill(false));
+           if (selectedSession.sessionCount !== null) {
+              setDotsStatus(Array(selectedSession.sessionCount).fill(false));
             }
-          },[settings.sessionCount])
+          },[selectedSession.sessionCount])
   return {
     
-    settings,
+    
     currentSession,
     currentCondition,
     sessionsCompleted,
@@ -305,11 +377,16 @@ function usePomodoro() {
     isPause,
     isFinished,
     isFocused,
+    isBreak,
     dotsStatus,
     isAddCustomSessionModulDisplay,
     customSessions,
+    isBackToHomeModalDisplayed,
+    isInitialized,
+    setIsBackToHomeModalDisplayed,
+    setTimeLeft,
+    setIsFocused,
   openCustomSessionModal,
-    updateSetting,
     startPomodoro,
     stopPomodoro,
     resetPomodoro,
@@ -318,6 +395,13 @@ function usePomodoro() {
     handleBackToMainPage,
     submitCustomSession,
     closeCustomSessionModal,
+    loadIsFocusedFromLocalStorage,
+    loadTimeLeftFromLocalStorage,
+    loadIsRunningFromLocalStorage,
+    loadinitialWorkTimeFromLocalStorage,
+    loadinitialBreakTimeFromLocalStorage,
+    loadIsFinishedFromLocalStorage,
+    initializeComplete
   }
 }
 

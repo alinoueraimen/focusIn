@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+
 
 type sessionDotPropsType = {
   isCompleted : boolean  
@@ -6,7 +6,7 @@ type sessionDotPropsType = {
 
 function SessionDot( {isCompleted} : sessionDotPropsType) {
   return (
-    <div className={`w-[2%] aspect-square ${isCompleted ? 'bg-black' : 'bg-container'}
+    <div className={`w-[5%] aspect-square ${isCompleted ? 'bg-black' : 'bg-container'}
     rounded-full`}>
 
             </div>

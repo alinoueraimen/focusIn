@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+
 import NewTaskButton from './NewTasksToggle'
 import { useTaskManagementContext } from '../../../../hooks/taskManagement/taskManagementContext'
 import TaskUnit from '../element/taskUnit'
@@ -17,7 +17,7 @@ function SessionTasks({sessionId} : sessionTasksType) {
            </p>
          </div>
          {tasks.filter((item)=>(item.sessionId === sessionId)).map((item)=>(
-                             <TaskUnit key={item.id}>
+                             <TaskUnit key={item.id} id={item.id}>
                                  {item.content}
                              </TaskUnit>
                            ))}

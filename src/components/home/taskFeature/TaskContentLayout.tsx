@@ -4,23 +4,30 @@ type TaskContentLayoutProp =  {
     children : React.ReactNode
 }
 
-function TaskContentLayout({children} : TaskContentLayoutProp) {
+function TaskContentLayout({ children }: TaskContentLayoutProp) {
   return (
-    <div className="
-        w-[30%]
-        h-full 
+    <div
+      className="
+        w-screen
+        md:w-[30%]
+        h-full
         bg-background
         flex
         flex-col
         border-l-text
         border-l-2
-        absolute
+        md:static
+        fixed
         right-0
-        ">
-          {children}
-        </div>
-
-  )
+        top-0
+        z-50
+        overflow-y-auto
+        scroll-smooth
+      "
+    >
+      {children}
+    </div>
+  );
 }
 
 export default TaskContentLayout

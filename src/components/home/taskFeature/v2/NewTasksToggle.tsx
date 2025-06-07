@@ -1,7 +1,7 @@
-import React from 'react'
+
 import { useTaskManagementContext } from '../../../../hooks/taskManagement/taskManagementContext'
 import { Plus } from 'lucide-react';
-function NewTaskButton({sessionId} : {sessionId : number}) {
+function NewTaskButton({sessionId} : {sessionId ?: number}) {
   const {setTaskSessionIdValue} = useTaskManagementContext();  
   const handleClick =  () =>{
     
@@ -10,7 +10,8 @@ function NewTaskButton({sessionId} : {sessionId : number}) {
     }
     const {openModal} = useTaskManagementContext();
   return (<>
-     <button className='flex flex-row gap-x-1 text-sm items-center text-text my-auto' onClick={handleClick}>
+     <button className='w-full h-12  border-b-[0.5px]
+    flex gap-x-3 items-center text-text text-sm hover:cursor-pointer' onClick={handleClick}>
          <Plus/>
          <p>add a new task</p>
        </button>

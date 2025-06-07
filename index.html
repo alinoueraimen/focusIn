@@ -1,14 +1,62 @@
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-    <link href="src/index.css">  
+    
+    <!-- Optimized viewport for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Prevent zoom on iOS Safari -->
+    <meta name="format-detection" content="telephone=no" />
+    
+    <!-- Color scheme -->
+    <meta name="color-scheme" content="light only" />
+    
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#ffffff" />
+    
+    <title>FocusIn</title>
+    
+    <!-- Fixed CSS link -->
+    <link rel="stylesheet" href="src/index.css">
+    
+    <!-- Additional mobile optimizations -->
+    <style>
+      /* Prevent unwanted scrolling and ensure full height */
+      html, body {
+        height: 100%;
+        overflow-x: hidden;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+      
+      /* Ensure root takes full height */
+      #root {
+        min-height: 100vh;
+        min-height: 100dvh; /* Dynamic viewport height for mobile */
+      }
+      
+      /* Prevent tap highlight on mobile */
+      * {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      
+      /* Allow text selection for specific elements */
+      input, textarea, [contenteditable] {
+        -webkit-user-select: auto;
+        -moz-user-select: auto;
+        -ms-user-select: auto;
+        user-select: auto;
+      }
+    </style>
   </head>
-  <body className="">
+  <body className="antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

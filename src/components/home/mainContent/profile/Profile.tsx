@@ -1,13 +1,13 @@
-import React from 'react'
+
 import Avatar from './elements/avatar/Avatar'
-import SettingsBtn from './elements/Settings/settingsButton'
+
 
 function Profile() {
   return (   
     <>
-        <div className={`w-full h-[10%] flex flex-row justify-between items-center border-b-[0.5px] mt-5`}>
+        <div className={`w-full  h-[20%] xl:h-[30%] lg:h-[30%] md:h-[30%] justify-between flex flex-row lg:justify-around items-center border-b-[0.5px] mt-3 sm:justify-between md:justify-around `}>
             <Avatar/>
-            <SettingsBtn/>
+            {/* <SettingsBtn/> */}
   </div>
     </>
     

@@ -1,6 +1,6 @@
-import React from 'react'
+
 import useUtils from '../../../../../utils/useUtils'
-import usePomodoro from '../../../../../hooks/pomodoro/usePomodoro';
+
 import { usePomodoroContext } from '../../../../../hooks/pomodoro/pomodoroContext';
 
 type TimerTextPropsType = {

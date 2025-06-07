@@ -1,0 +1,180 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import {
+  faClock, faBook, faLaptop, faBullseye, faFire, faBolt, faPalette,
+  faRunning, faTree, faLightbulb, faMusic, faCoffee
+} from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
+// Utility: Mapping icon string ke objek icon FontAwesome
+// Definisikan union type untuk key-key valid
+export type IconName =
+  | 'clock'
+  | 'book'
+  | 'laptop'
+  | 'bullseye'
+  | 'fire'
+  | 'bolt'
+  | 'palette'
+  | 'running'
+  | 'tree'
+  | 'lightbulb'
+  | 'music'
+  | 'coffee'
+
+// Tambahkan type annotation ke iconMap
+export const iconMap: Record<IconName, IconDefinition> = {
+  clock: faClock,
+  book: faBook,
+  laptop: faLaptop,
+  bullseye: faBullseye,
+  fire: faFire,
+  bolt: faBolt,
+  palette: faPalette,
+  running: faRunning,
+  tree: faTree,
+  lightbulb: faLightbulb,
+  music: faMusic,
+  coffee: faCoffee,
+}
+
+// Parameter dibatasi hanya bisa string dari union `IconName`
+export const getIconElement = (icon: string): IconDefinition => {
+  if (icon in iconMap) {
+    return iconMap[icon as IconName]
+  }
+  return faClock // fallback
+}
+
+// Tipe sesi Pomodoro
+export interface PomodoroSessionType {
+  id: number |string;
+  title: string;
+  icon: string; // simpan sebagai string
+  sessionCount: number;
+  workDuration: number;
+  shortBreak: number;
+  longBreak: number;
+}
+
+// Tipe konteks
+interface DeepFocusContextType {
+  sessions: PomodoroSessionType[];
+  addSession: (session: PomodoroSessionType) => void;
+  selectedSession: PomodoroSessionType;
+  selectSession: (session: PomodoroSessionType) => void;
+   deleteSession: (id: number | string) => void;
+}
+
+// Buat konteks
+const DeepFocusContext = createContext<DeepFocusContextType | undefined>(undefined);
+
+// Default sesi
+const SessionDefault: PomodoroSessionType[] = [
+  {
+    id: 1,
+    title: "Classic",
+    icon: "clock",
+    sessionCount: 4,
+    workDuration: 25,
+    shortBreak: 5,
+    longBreak: 15,
+  },
+  {
+    id: 2,
+    title: "Sprint",
+    icon: "bolt",
+    sessionCount: 2,
+    workDuration: 15,
+    shortBreak: 3,
+    longBreak: 8,
+  },
+];
+
+// Provider konteks
+export const PomodoroSessionProvider = ({ children }: { children: React.ReactNode }) => {
+  const [sessions, setSessions] = useState<PomodoroSessionType[]>([]);
+  const [selectedSession, setSelectedSession] = useState<PomodoroSessionType>(SessionDefault[0]);
+  const [isInitialize, setIsInitialize] = useState(true);
+
+  const addSession = (session: PomodoroSessionType) => {
+    setSessions((prev) => [...prev, session]);
+  };
+
+  const selectSession = (session: PomodoroSessionType) => {
+    setSelectedSession(session);
+  };
+  const deleteSession = (id: number | string) => {
+  setSessions((prev) => prev.filter((session) => session.id !== id));
+
+  // Jika session yang dihapus adalah session yang sedang dipilih
+  if (selectedSession.id === id) {
+    // Pilih sesi default jika masih ada, atau kosongkan
+    const remainingSessions = sessions.filter((s) => s.id !== id);
+    const newSelected = remainingSessions[0] || SessionDefault[0];
+    setSelectedSession(newSelected);
+  }
+};
+  // Load dari localStorage saat pertama kali
+  useEffect(() => {
+     if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+  }
+    const savedSessions = localStorage.getItem("pomodoro-sessions");
+    const savedSelectedSession = localStorage.getItem("pomodoro-selectedSession");
+
+    try {
+      const parsedSessions = savedSessions ? JSON.parse(savedSessions) : null;
+      const parsedSelected = savedSelectedSession ? JSON.parse(savedSelectedSession) : null;
+
+      if (parsedSessions && parsedSelected) {
+        setSessions(parsedSessions);
+        setSelectedSession(parsedSelected);
+      } else {
+        setSessions(SessionDefault);
+        setSelectedSession(SessionDefault[0]);
+      }
+    } catch (err) {
+      console.error("Failed to parse Pomodoro localStorage:", err);
+      setSessions(SessionDefault);
+      setSelectedSession(SessionDefault[0]);
+    } finally {
+      setIsInitialize(false);
+    }
+  }, []);
+
+  // Simpan ke localStorage saat sesi berubah
+  useEffect(() => {
+    if (!isInitialize) {
+      localStorage.setItem("pomodoro-sessions", JSON.stringify(sessions));
+    }
+  }, [sessions, isInitialize]);
+
+  useEffect(() => {
+    if (!isInitialize) {
+      localStorage.setItem("pomodoro-selectedSession", JSON.stringify(selectedSession));
+    }
+  }, [selectedSession, isInitialize]);
+
+  return (
+    <DeepFocusContext.Provider
+      value={{
+        sessions,
+        addSession,
+        selectedSession,
+        selectSession,
+        deleteSession
+      }}
+    >
+      {children}
+    </DeepFocusContext.Provider>
+  );
+};
+
+// Hook custom
+export const usePomodoroSessionContext = () => {
+  const context = useContext(DeepFocusContext);
+  if (!context) {
+    throw new Error("usePomodoroSessionContext must be used within a PomodoroSessionProvider");
+  }
+  return context;
+};

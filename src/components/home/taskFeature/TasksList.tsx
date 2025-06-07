@@ -1,4 +1,4 @@
-import React from 'react'
+
 import {Plus} from 'lucide-react'
 import { useTaskManagementContext } from '../../../hooks/taskManagement/taskManagementContext';
 import TaskUnit from './element/taskUnit';
@@ -18,8 +18,8 @@ function TasksList() {
           </div>
           <div>
             {
-              tasks.map((item)=>(
-                <TaskUnit>
+              tasks.map((item,index)=>(
+                <TaskUnit key={index} id={item.id}>
                   {item.content}
                 </TaskUnit>
               ))

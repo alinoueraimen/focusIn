@@ -1,5 +1,9 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 export type PomodoroSettings = {
-    label? : string ;
+    title? : string ;
+    icon?: string ;
+    iconObject?:IconProp ;
     sessionCount: number ;
     workDuration: number ;
     shortBreak: number ;

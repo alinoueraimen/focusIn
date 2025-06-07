@@ -24,7 +24,7 @@ function usePomodoro() {
     const [timeLeft, setTimeLeft] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [isPause,setIsPause] = useState(false);
-    const [isFocused,setIsFocused] = useState <boolean> (true);
+    const [isFocused,setIsFocused] = useState <boolean> (false);
     const [currentCondition,setCurrentCondition] = useState<CurrentConditionType>({
       isHalfTime  : false,
       isQuarterTime : false,

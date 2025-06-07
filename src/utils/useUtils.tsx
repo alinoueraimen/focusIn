@@ -4,7 +4,7 @@ type PlaySoundOptions = {
 };
 const useUtils = () =>{
     const playSound = (src: string, options?: PlaySoundOptions): void => {
-  console.log(`Playing sound from: ${src}`);
+  
   const audio = new Audio(src);
 
   if (options?.volume !== undefined) {
@@ -16,7 +16,7 @@ const useUtils = () =>{
   }
 
   audio.play().catch((err) => {
-    console.error('Error playing audio:', err);
+    console.error( err);
   });
 };
 

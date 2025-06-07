@@ -39,7 +39,7 @@ function useTaskManagement(){
         return       
        }
         e.preventDefault();
-        console.log('add tasks function');
+        
         indexId.current += 1
         const newTasks : TasksType = {
             id : indexId.current,
@@ -62,12 +62,12 @@ function useTaskManagement(){
     }
 
     const openModal=()=>{
-      console.log("open modal")
+      
       setIsModaldisplayed(true);
     }
 
     const closeModal=()=>{
-      console.log("close modal")
+     
       setIsModaldisplayed(false);
       setIsEditMode(false);
     }
@@ -100,7 +100,7 @@ function useTaskManagement(){
 
       // Alternative function specifically for toggling isDone
       const toggleTaskDone = (id: number) => {
-        console.log('Toggling isDone for task:', id);
+        
         setTasks((prev) =>
           prev.map((task) =>
             task.id === id ? { ...task, isDone: !task.isDone } : task
@@ -120,13 +120,9 @@ function useTaskManagement(){
     setTasks(storedTasks);
   };
 
-    useEffect(()=>{
-        console.log("tasks list :",tasks)
-    },[tasks])
+    
 
-    useEffect(()=>{
-      console.log('input value :',taskInputValue);
-    },[taskInputValue])
+    
 
     return {
         tasks,

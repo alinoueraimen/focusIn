@@ -173,8 +173,8 @@ useEffect(() => {
   };
 }, [isRunning]);
   useEffect(() => {
-    console.log('heiii aku mau set ke localstorage loh')
-    console.log(isInitialized);
+    
+    
     if(!isInitialized) {
       
       
@@ -184,7 +184,7 @@ useEffect(() => {
   }, [isFocused,isInitialized]);
   useEffect(() => {
  
-    console.log(isInitialized);
+    
     if(!isInitialized) {
       
       
@@ -194,7 +194,7 @@ useEffect(() => {
   }, [timeLeft,isInitialized]);
   useEffect(() => {
  
-    console.log(isInitialized);
+    
     if(!isInitialized) {
       
       
@@ -204,7 +204,7 @@ useEffect(() => {
   }, [isRunning,isInitialized]);
   useEffect(() => {
  
-    console.log(isInitialized);
+    
     if(!isInitialized) {
       
       
@@ -214,7 +214,7 @@ useEffect(() => {
   }, [initialWorkTime,isInitialized]);
   useEffect(() => {
  
-    console.log(isInitialized);
+    
     if(!isInitialized) {
       
       
@@ -224,7 +224,7 @@ useEffect(() => {
   }, [isFinished,isInitialized]);
   useEffect(() => {
  
-    console.log(isInitialized);
+    
     if(!isInitialized) {
       
       
@@ -257,7 +257,7 @@ useEffect(() => {
                     currentSession % 2 === 0
                       ? selectedSession.longBreak
                       : selectedSession.shortBreak;
-                  console.log("breakTime :",breakTime)    
+                  
                   setInitialBreakTime((breakTime ?? 5) * 60);
                   setTimeLeft((breakTime ?? 5) * 60);
                  
@@ -340,23 +340,16 @@ useEffect(() => {
           }, [timeLeft, isWorking]);
           
 
-          // useEffect(() => {
-          //   console.group("Current Condition Changed");
-          //   console.log("isQuarterTime:", currentCondition.isQuarterTime);
-          //   console.log("isHalfTime:", currentCondition.isHalfTime);
-          //   console.log("isQuarterBreakTime:", currentCondition.isQuarterBreakTime);
-          //   console.groupEnd();
-          // }, [currentCondition]);
+        
           useEffect(()=>{
-           console.log('current session :',currentSession);
-           console.log("session completed :",sessionsCompleted)
+           
            if(sessionsCompleted !== 0){
             updateDotStatus(sessionsCompleted - 1 )
            }
            
           },[currentSession,sessionsCompleted])
           useEffect(()=>{
-              console.log('dots status :',dotsStatus)
+             
           },[dotsStatus])
           useEffect(()=>{
            if (selectedSession.sessionCount !== null) {

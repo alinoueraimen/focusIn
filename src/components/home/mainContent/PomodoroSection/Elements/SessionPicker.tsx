@@ -114,7 +114,7 @@ useEffect(() => {
             onClick={(e) => {
               e.stopPropagation();
               deleteSession(id)
-              console.log('Delete clicked');
+              
             }}
           >
             <FontAwesomeIcon icon={faTrash} className="w-4 h-4" />
@@ -125,7 +125,7 @@ useEffect(() => {
             onClick={(e) => {
               e.stopPropagation();
               
-              console.log('Edit clicked');
+              
             }}
           >
             <FontAwesomeIcon icon={faPen} className="w-4 h-4" />

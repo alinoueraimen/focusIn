@@ -36,7 +36,7 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
         setSettings(JSON.parse(savedSettings));
       }
     } catch (err) {
-      console.error("Failed to load settings:", err);
+      console.error( err);
     } finally {
       setIsInitialize(false);
     }

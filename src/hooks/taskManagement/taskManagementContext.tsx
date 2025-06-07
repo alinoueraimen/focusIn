@@ -6,16 +6,16 @@ export const TaskManagementProvider  =({children}:{children : ReactNode})=>{
     const taskManagement = useTaskManagement();
     const {tasks,loadTasksFromStorage} = taskManagement
     useEffect(()=>{
-        console.log('fetching datas')
+      
         const savedTask : string | null = localStorage.getItem('tasks') 
-        console.log('savedTask :',savedTask)
+      
         if(savedTask){
-            console.log('setting tasks')
+            
             loadTasksFromStorage(JSON.parse(savedTask))
         }
     },[])
     useEffect(()=>{
-        console.log('saving tasks list')
+        
         localStorage.setItem('tasks',JSON.stringify(tasks))
     },[tasks])
     return (

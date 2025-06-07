@@ -13,7 +13,7 @@ function TimerText({text} : TimerTextPropsType) {
     
   return (
     <button onClick={()=>{
-        console.log('pause')
+        
         stopPomodoro();
     }
     } className={`hover:cursor-pointer`}>

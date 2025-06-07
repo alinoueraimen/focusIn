@@ -9,7 +9,7 @@ export const PomodoroProvider = ({ children }: { children: ReactNode }) => {
 
   // Load dari localStorage saat pertama kali mount
   useEffect(() => {
-  console.log('pomodoro context rendered');
+
   try {
     const savedIsFocused: string | null = localStorage.getItem('pomodoro-isFocused');
     const isFocusedValue = savedIsFocused === 'true';
@@ -27,7 +27,7 @@ export const PomodoroProvider = ({ children }: { children: ReactNode }) => {
     const savedIsFinished: string | null = localStorage.getItem('pomodoro-isFinished');
     const isFinished = savedIsFinished === 'true';    
     if (savedIsFocused !== null && savedTimeLeft !== null && !isNaN(timeLeftValue)) {
-      console.log('pass !');
+      
       loadIsFocusedFromLocalStorage(isFocusedValue);
       loadTimeLeftFromLocalStorage(timeLeftValue);
       loadIsRunningFromLocalStorage(isRunningValue);
@@ -38,7 +38,7 @@ export const PomodoroProvider = ({ children }: { children: ReactNode }) => {
       loadIsFinishedFromLocalStorage(isFinished);
     }
   } catch (error) {
-    console.error('Error restoring Pomodoro state from localStorage:', error);
+    console.error( error);
   } finally {
     initializeComplete();
   }

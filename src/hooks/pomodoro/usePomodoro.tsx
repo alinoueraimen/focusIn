@@ -101,12 +101,12 @@ function usePomodoro() {
     
     setInitialWorkTime(workTimeInSeconds);
     setInitialBreakTime(breakTimeInSeconds);
-    if(!isFocused){
-      setTimeLeft(workTimeInSeconds); 
-    }
+    
+    setTimeLeft(workTimeInSeconds); 
+    
     
   } else {
-    alert("Lengkapi semua pengaturan dulu ya 🛠️");
+    alert("set your session first");
   }
 };
 
@@ -163,7 +163,7 @@ useEffect(() => {
 
   intervalRef.current = setInterval(() => {
     setTimeLeft((prev) => prev - 1);
-  }, 1000 * TIMER_SPEED_UP);
+  }, 1000 );
 
   return () => {
     if (intervalRef.current) {
@@ -342,20 +342,26 @@ useEffect(() => {
 
         
           useEffect(()=>{
-           
+            
            if(sessionsCompleted !== 0){
             updateDotStatus(sessionsCompleted - 1 )
            }
            
           },[currentSession,sessionsCompleted])
-          useEffect(()=>{
-             
-          },[dotsStatus])
+         
           useEffect(()=>{
            if (selectedSession.sessionCount !== null) {
               setDotsStatus(Array(selectedSession.sessionCount).fill(false));
             }
           },[selectedSession.sessionCount])
+          useEffect(()=>{
+            console.log('selected session berubah !')
+            console.log(selectedSession.workDuration * 60)
+            setTimeLeft(selectedSession.workDuration * 60)
+            setInitialWorkTime(selectedSession.workDuration * 60
+            
+            )
+          },[selectedSession])
   return {
     
     

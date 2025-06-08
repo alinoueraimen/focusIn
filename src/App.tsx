@@ -29,6 +29,7 @@ import DeepFocusSection from './components/home/deepfocus/DeepFocusSection.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft,faCaretRight,faXmark,faPlus } from '@fortawesome/free-solid-svg-icons';
 import { usePomodoroSessionContext } from './hooks/sessionType/usePomodoroSession.tsx'
+import SetTasksBtn from './components/home/mainContent/setTasksBtn.tsx'
 
 function App() {
   
@@ -82,21 +83,7 @@ useEffect(() => {
      // Cegah keluar langsung di load awal (buat initial state)
      history.replaceState({}, "");
    }, [])
-  // if(isFinished){
-  //   return(
-  //     <>
-  //       <div className="bg-background w-screen h-screen 
-  //       flex justify-center items-center
-  //       overflow-y-hidden
-  //       "
-        
-  //       >
-  //         <CompletedSection/>
-          
-  //       </div>
-  //     </>
-  //   )
-  // }
+  
   if(isFocused){
     return(
       <>
@@ -116,19 +103,12 @@ useEffect(() => {
       <MainContentLayout 
       >
         <div className="flex flex-col  relative w-full xl:items-center md:items-center sm:items-center justify-center h-full  ">
-          {
-            selectedSession.sessionCount ?  <div className="absolute bottom-3 right-0 flex gap-x-3 items-center"> 
-            <p className="capitalize font-light text-text text-sm">set tasks</p>
-              <div onClick={showSection} className=" w-10 h-10 rounded-full grid place-items-center bg-accent font-bold text-white hover:cursor-pointer">
-           <FontAwesomeIcon icon={faPlus} size="xl" className="font-bold"/>
-         </div>
-          </div> : <></>
-          }
+          
          
            
-      <div className="flex justify-center items-center gap-4 w-full  xl:w-fit lg:w-fit sm:w-fit ">
+      <div className="flex justify-center items-center gap-4 w-full h-full xl:w-fit lg:w-fit sm:w-fit ">
         <button onClick={handlePrev} className="h-fit w-fit" title="swipe right">
-          <FontAwesomeIcon icon={faCaretLeft} size="5x" className="text-text"/> {/* panah kiri */}
+          <FontAwesomeIcon icon={faCaretLeft} size="5x" className="text-text"/> 
         </button>
 
           {timersVariants[currentTimerVariant
@@ -137,6 +117,7 @@ useEffect(() => {
           <FontAwesomeIcon icon={faCaretRight} size="5x" className="text-text"/>
         </button>
       </div>
+      <SetTasksBtn/>
     </div>
         <SessionCategoryPicker/>
         {/* <StartButton/> */}

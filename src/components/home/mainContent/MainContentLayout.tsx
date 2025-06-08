@@ -16,11 +16,9 @@ function MainContentLayout({children} : MainContentLayoutProps) {
         h-screen     
         flex
         flex-col
-        
         px-5
         overflow-x-hidden
         overflow-y-hidden
-       
         `}>
             <Profile/>
             {children}

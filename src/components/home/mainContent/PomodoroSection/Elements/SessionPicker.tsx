@@ -26,7 +26,9 @@ function SessionPicker({
   shortBreak,
   longBreak,
   workDuration,
+  isSelected
 }: SessionPickerProps) {
+  
   const { selectSession,deleteSession } = usePomodoroSession();
   
 
@@ -35,6 +37,7 @@ function SessionPicker({
   const longPressTriggered = useRef(false);
 
   const handlePick = () => {
+    
     if (!longPressTriggered.current) {
       selectSession({
         id,
@@ -44,6 +47,7 @@ function SessionPicker({
         shortBreak,
         longBreak,
         workDuration,
+        isSelected
       });
     }
   };
@@ -89,6 +93,7 @@ useEffect(() => {
 }, [showSection]);
   return (
     <button
+
        ref={containerRef}
       onClick={handlePick}
       onMouseDown={startPressTimer}
@@ -100,8 +105,8 @@ useEffect(() => {
     e.preventDefault();
     setShowSection(true);
   }}
-      className="w-full px-5 py-4 sm:px-6 md:px-8 lg:px-10 rounded-xl bg-secondary text-text font-semibold 
-                 flex flex-col gap-5 items-center hover:shadow-xl hover:border-text hover:border-1 transition-all hover:cursor-pointer relative"
+      className={`w-full px-5 py-4 sm:px-6 md:px-8 lg:px-10 rounded-xl bg-secondary text-text font-semibold 
+                 flex flex-col gap-5 items-center shadow-sm transition-all hover:cursor-pointer relative ${isSelected &&"border-white border-border text-white"}`}
     >
       {/* Tombol edit/delete muncul jika showSection true */}
       {showSection && (
@@ -140,13 +145,13 @@ useEffect(() => {
       </div>
 
       {/* Info Section */}
-      <div className="w-full flex flex-col sm:flex-row sm:justify-evenly gap-4 text-xs sm:text-sm">
+      <div className="w-full flex flex-col justify-between sm:flex-row sm:justify-evenly gap-4 text-xs sm:text-sm">
         <div className="flex flex-col gap-3 items-start sm:items-center">
           <div className="flex items-center gap-x-1">
             <FontAwesomeIcon icon={faListOl} className="w-4 h-4" />
-            <p>{sessionCount} sessions</p>
+            <p>{sessionCount} session</p>
           </div>
-          <div className="flex items-center gap-x-1">
+          <div className="flex items-center gap-x-1 ">
             <FontAwesomeIcon icon={faClock} className="w-4 h-4" />
             <p>{workDuration} min</p>
           </div>

@@ -54,6 +54,7 @@ export interface PomodoroSessionType {
   workDuration: number;
   shortBreak: number;
   longBreak: number;
+  isSelected : boolean;
 }
 
 // Tipe konteks
@@ -63,13 +64,25 @@ interface DeepFocusContextType {
   selectedSession: PomodoroSessionType;
   selectSession: (session: PomodoroSessionType) => void;
    deleteSession: (id: number | string) => void;
+   toggleSessionSelection: (session: PomodoroSessionType) => void;
 }
 
 // Buat konteks
 const DeepFocusContext = createContext<DeepFocusContextType | undefined>(undefined);
 
 // Default sesi
+const blankSession = {
+    id: 0,
+    title: "",
+    icon: "",
+    sessionCount: 0,
+    workDuration: 0,
+    shortBreak: 0,
+    longBreak: 0,
+    isSelected : false
+}
 const SessionDefault: PomodoroSessionType[] = [
+ 
   {
     id: 1,
     title: "Classic",
@@ -78,6 +91,7 @@ const SessionDefault: PomodoroSessionType[] = [
     workDuration: 25,
     shortBreak: 5,
     longBreak: 15,
+    isSelected : false
   },
   {
     id: 2,
@@ -87,13 +101,14 @@ const SessionDefault: PomodoroSessionType[] = [
     workDuration: 15,
     shortBreak: 3,
     longBreak: 8,
+    isSelected : false
   },
 ];
 
 // Provider konteks
 export const PomodoroSessionProvider = ({ children }: { children: React.ReactNode }) => {
   const [sessions, setSessions] = useState<PomodoroSessionType[]>([]);
-  const [selectedSession, setSelectedSession] = useState<PomodoroSessionType>(SessionDefault[0]);
+  const [selectedSession, setSelectedSession] = useState<PomodoroSessionType >(blankSession)
   const [isInitialize, setIsInitialize] = useState(true);
 
   const addSession = (session: PomodoroSessionType) => {
@@ -101,11 +116,21 @@ export const PomodoroSessionProvider = ({ children }: { children: React.ReactNod
   };
 
   const selectSession = (session: PomodoroSessionType) => {
-    setSelectedSession(session);
+    const makeOtherSessionFalse = sessions.map((item) => ({
+  ...item,
+  isSelected: item.id === session.id ? !session.isSelected : false,
+}));
+
+setSessions(makeOtherSessionFalse);
+
+setSelectedSession((prev) => ({
+  ...session,
+  isSelected: !prev.isSelected,
+}));
   };
   const deleteSession = (id: number | string) => {
   setSessions((prev) => prev.filter((session) => session.id !== id));
-
+    
   // Jika session yang dihapus adalah session yang sedang dipilih
   if (selectedSession.id === id) {
     // Pilih sesi default jika masih ada, atau kosongkan
@@ -131,12 +156,12 @@ export const PomodoroSessionProvider = ({ children }: { children: React.ReactNod
         setSelectedSession(parsedSelected);
       } else {
         setSessions(SessionDefault);
-        setSelectedSession(SessionDefault[0]);
+        setSelectedSession(blankSession);
       }
     } catch (err) {
       console.error("Failed to parse Pomodoro localStorage:", err);
       setSessions(SessionDefault);
-      setSelectedSession(SessionDefault[0]);
+      setSelectedSession(blankSession);
     } finally {
       setIsInitialize(false);
     }

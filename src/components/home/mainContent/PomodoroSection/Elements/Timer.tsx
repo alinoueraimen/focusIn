@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { usePomodoroContext } from '../../../../../hooks/pomodoro/pomodoroContext';
-import { Play, Pause, RotateCcw } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 import TimerText from './TimerText';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';

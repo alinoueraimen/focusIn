@@ -1,5 +1,4 @@
 import {useState,useEffect,useRef} from 'react'
-import { TIMER_SPEED_UP } from '../../constant/pomodoroConstants'
 import {PomodoroSettings} from "../../types/index"
 import { usePomodoroSessionContext } from '../sessionType/usePomodoroSession'
 import useUtils from '../../utils/useUtils'
@@ -90,24 +89,23 @@ function usePomodoro() {
    
 
     const startPomodoro = () => {
-  if (selectedSession.sessionCount > 0 ) {
-    setIsPause(false);
-    setIsRunning(true);
-    setIsWorking(true);
-    setIsFocused(true);
-    
-    const workTimeInSeconds = selectedSession.workDuration * 60;
-    const breakTimeInSeconds = selectedSession.shortBreak * 60;
-    
-    setInitialWorkTime(workTimeInSeconds);
-    setInitialBreakTime(breakTimeInSeconds);
-    
-    setTimeLeft(workTimeInSeconds); 
-    
-    
-  } else {
-    alert("set your session first");
+  // Cegah tombol Start jalan saat sesi belum siap
+  if (!selectedSession || selectedSession.sessionCount <= 0 || !selectedSession.workDuration) {
+    alert("Set your sessions first");
+    return;
   }
+
+  setIsPause(false);
+  setIsRunning(true);
+  setIsWorking(true);
+  setIsFocused(true);
+
+  const workTimeInSeconds = selectedSession.workDuration * 60;
+  const breakTimeInSeconds = selectedSession.shortBreak * 60;
+
+  setInitialWorkTime(workTimeInSeconds);
+  setInitialBreakTime(breakTimeInSeconds);
+  setTimeLeft(workTimeInSeconds);
 };
 
     const stopPomodoro = () => {
@@ -355,11 +353,9 @@ useEffect(() => {
             }
           },[selectedSession.sessionCount])
           useEffect(()=>{
-            console.log('selected session berubah !')
-            console.log(selectedSession.workDuration * 60)
+            console.log('selectedSession(prod):',selectedSession)
             setTimeLeft(selectedSession.workDuration * 60)
             setInitialWorkTime(selectedSession.workDuration * 60
-            
             )
           },[selectedSession])
   return {

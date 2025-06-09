@@ -56,7 +56,8 @@ function AddCustomSessionModal() {
       workDuration,
       sessionCount,
       shortBreak,
-      longBreak
+      longBreak,
+      isSelected:false
     };
 
     addSession(customSession);

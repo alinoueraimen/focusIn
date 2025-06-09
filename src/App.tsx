@@ -27,8 +27,7 @@ import HourglassTimer from './test/HourGlass.tsx'
 import DeepFocusSection from './components/home/deepfocus/DeepFocusSection.tsx'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft,faCaretRight,faXmark,faPlus } from '@fortawesome/free-solid-svg-icons';
-import { usePomodoroSessionContext } from './hooks/sessionType/usePomodoroSession.tsx'
+import { faCaretLeft,faCaretRight,faXmark } from '@fortawesome/free-solid-svg-icons';
 import SetTasksBtn from './components/home/mainContent/setTasksBtn.tsx'
 
 function App() {
@@ -44,9 +43,9 @@ function App() {
     <TimeAndSessionSection timerVariant={<PomodoroTimer />} key="time-session" />,
     <TimeAndSessionSection timerVariant={<HourglassTimer/>} key="time-session" />,
   ];
- const {selectedSession}= usePomodoroSessionContext();
+ 
   const {isFocused} =usePomodoroContext();
-  const {isSectionDisplayed,showSection,hideSection} = useTaskManagementContext();
+  const {isSectionDisplayed,hideSection} = useTaskManagementContext();
 
 
 

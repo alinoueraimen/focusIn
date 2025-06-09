@@ -93,7 +93,7 @@ useEffect(() => {
 }, [showSection]);
   return (
     <button
-
+      disabled={isSelected}
        ref={containerRef}
       onClick={handlePick}
       onMouseDown={startPressTimer}
@@ -106,7 +106,7 @@ useEffect(() => {
     setShowSection(true);
   }}
       className={`w-full px-5 py-4 sm:px-6 md:px-8 lg:px-10 rounded-xl bg-secondary text-text font-semibold 
-                 flex flex-col gap-5 items-center shadow-sm transition-all hover:cursor-pointer relative ${isSelected &&"border-white border-border text-white"}`}
+                 flex flex-col gap-5 items-center shadow-sm transition-all hover:cursor-pointer relative ${isSelected &&"border-white border text-white"}`}
     >
       {/* Tombol edit/delete muncul jika showSection true */}
       {showSection && (

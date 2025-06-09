@@ -64,7 +64,7 @@ interface DeepFocusContextType {
   selectedSession: PomodoroSessionType;
   selectSession: (session: PomodoroSessionType) => void;
    deleteSession: (id: number | string) => void;
-   toggleSessionSelection: (session: PomodoroSessionType) => void;
+   
 }
 
 // Buat konteks
@@ -175,11 +175,13 @@ setSelectedSession((prev) => ({
   }, [sessions, isInitialize]);
 
   useEffect(() => {
+    console.log(selectedSession)
     if (!isInitialize) {
       localStorage.setItem("pomodoro-selectedSession", JSON.stringify(selectedSession));
     }
   }, [selectedSession, isInitialize]);
 
+  
   return (
     <DeepFocusContext.Provider
       value={{

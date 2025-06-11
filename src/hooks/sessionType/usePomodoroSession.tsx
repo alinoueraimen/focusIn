@@ -141,9 +141,7 @@ export const PomodoroSessionProvider = ({ children }: { children: React.ReactNod
 };
   // Load dari localStorage saat pertama kali
   useEffect(() => {
-     if (Notification.permission !== "granted") {
-    Notification.requestPermission();
-  }
+  
     const savedSessions = localStorage.getItem("pomodoro-sessions");
     const savedSelectedSession = localStorage.getItem("pomodoro-selectedSession");
 

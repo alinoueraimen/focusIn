@@ -361,6 +361,7 @@ useEffect(() => {
             setInitialWorkTime(selectedSession.workDuration * 60
             )
             setIsReady(true);
+            console.log('setting isReady')
           },[selectedSession])
   return {
     

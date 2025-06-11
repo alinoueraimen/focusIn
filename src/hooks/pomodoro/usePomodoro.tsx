@@ -38,7 +38,6 @@ function usePomodoro() {
     const [isBackToHomeModalDisplayed,setIsBackToHomeModalDisplayed] = useState<boolean>(false)
     const [isBreak,setIsBreak] = useState(false);
     const [isInitialized, setIsInitialized] = useState(true);
-    const [isReady,setIsReady] = useState(false);
     const initializeComplete=()=>{
       setIsInitialized(false);
     }
@@ -91,7 +90,7 @@ function usePomodoro() {
 
     const startPomodoro = () => {
      
-      console.log(isReady)
+      
   
   if ( selectedSession && selectedSession.sessionCount === 0 ) {
     alert("Set your sessions first");

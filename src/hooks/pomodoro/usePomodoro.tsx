@@ -359,7 +359,7 @@ useEffect(() => {
             setTimeLeft(selectedSession.workDuration * 60)
             setInitialWorkTime(selectedSession.workDuration * 60
             )
-            setIsReady(true);
+            
             console.log('setting isReady')
           },[selectedSession])
   return {

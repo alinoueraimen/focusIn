@@ -108,7 +108,8 @@ const SessionDefault: PomodoroSessionType[] = [
 // Provider konteks
 export const PomodoroSessionProvider = ({ children }: { children: React.ReactNode }) => {
   const [sessions, setSessions] = useState<PomodoroSessionType[]>([]);
-  const [selectedSession, setSelectedSession] = useState<PomodoroSessionType >(blankSession)
+  const [selectedSession, setSelectedSession] = useState<PomodoroSessionType>(SessionDefault[0]);
+
   const [isInitialize, setIsInitialize] = useState(true);
 
   const addSession = (session: PomodoroSessionType) => {
@@ -116,18 +117,17 @@ export const PomodoroSessionProvider = ({ children }: { children: React.ReactNod
   };
 
   const selectSession = (session: PomodoroSessionType) => {
-    const makeOtherSessionFalse = sessions.map((item) => ({
-  ...item,
-  isSelected: item.id === session.id ? !session.isSelected : false,
-}));
+  // Update semua sesi, hanya sesi yang diklik yang aktif
+  const updatedSessions = sessions.map((item) => ({
+    ...item,
+    isSelected: item.id === session.id,
+  }));
 
-setSessions(makeOtherSessionFalse);
+  setSessions(updatedSessions);
 
-setSelectedSession((prev) => ({
-  ...session,
-  isSelected: !prev.isSelected,
-}));
-  };
+  // Set sesi yang dipilih
+  setSelectedSession({ ...session, isSelected: true });
+};
   const deleteSession = (id: number | string) => {
   setSessions((prev) => prev.filter((session) => session.id !== id));
     
@@ -151,13 +151,14 @@ setSelectedSession((prev) => ({
       const parsedSessions = savedSessions ? JSON.parse(savedSessions) : null;
       const parsedSelected = savedSelectedSession ? JSON.parse(savedSelectedSession) : null;
 
-      if (parsedSessions && parsedSelected) {
-        setSessions(parsedSessions);
-        setSelectedSession(parsedSelected);
-      } else {
-        setSessions(SessionDefault);
-        setSelectedSession(blankSession);
-      }
+     if (parsedSessions && parsedSelected) {
+  setSessions(parsedSessions);
+  setSelectedSession(parsedSelected);
+} else {
+  setSessions(SessionDefault);
+  setSelectedSession(SessionDefault[0]); // <-- default ke session pertama
+}
+
     } catch (err) {
       console.error("Failed to parse Pomodoro localStorage:", err);
       setSessions(SessionDefault);

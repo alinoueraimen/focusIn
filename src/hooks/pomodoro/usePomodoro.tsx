@@ -38,6 +38,7 @@ function usePomodoro() {
     const [isBackToHomeModalDisplayed,setIsBackToHomeModalDisplayed] = useState<boolean>(false)
     const [isBreak,setIsBreak] = useState(false);
     const [isInitialized, setIsInitialized] = useState(true);
+    const [isReady,setIsReady] = useState(false);
     const initializeComplete=()=>{
       setIsInitialized(false);
     }
@@ -89,8 +90,11 @@ function usePomodoro() {
    
 
     const startPomodoro = () => {
-  // Cegah tombol Start jalan saat sesi belum siap
-  if (!selectedSession || selectedSession.sessionCount <= 0 || !selectedSession.workDuration) {
+      console.log('isready :',isReady)
+      console.log('woiii')
+
+  
+  if ( !isReady ) {
     alert("Set your sessions first");
     return;
   }
@@ -357,6 +361,7 @@ useEffect(() => {
             setTimeLeft(selectedSession.workDuration * 60)
             setInitialWorkTime(selectedSession.workDuration * 60
             )
+            setIsReady(true);
           },[selectedSession])
   return {
     

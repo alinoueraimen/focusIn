@@ -90,11 +90,10 @@ function usePomodoro() {
    
 
     const startPomodoro = () => {
-      console.log('isready :',isReady)
-      console.log('woiii')
+     
 
   
-  if ( !isReady ) {
+  if ( selectedSession && selectedSession.sessionCount === 0 ) {
     alert("Set your sessions first");
     return;
   }
